@@ -57,7 +57,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 ## Visual Representation
 
-<img src="[URL_da_Imagem](https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/FSWD%20Capstone%20Project.png?raw=true)" alt="App HDL">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/FSWD%20Capstone%20Project.png?raw=true" alt="App HDL">
 
 
 

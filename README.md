@@ -4,6 +4,9 @@
 
 The **NetAdmin Portal** is a web application designed to assist IT personnel, even those without prior knowledge of network devices, in configuring and activating new network equipment. The portal will offer an intuitive interface for managing network devices, including adding, updating, deleting, and connecting them. Access control will ensure that users only interact with devices they are authorized to manage.
 
+The **NetAdmin Portal** aims to simplify the management of network devices by offering a user-friendly platform for IT personnel. With strong emphasis on security, access control, and tracking user actions, the portal will ensure that only authorized users can manage the network devices, while keeping an audit trail of all actions performed.
+
+
 ## Features
 
 - **User Authentication**: Users must register and log in to access the portal. Permissions will be applied to restrict access to authorized devices only.
@@ -48,11 +51,13 @@ The **NetAdmin Portal** is a web application designed to assist IT personnel, ev
 ## Additional Information
 
 - **DER Proposal**: The design and engineering requirements have been discussed and are reflected in the portal's development plan.
-  
+
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/DER%20Capstone%20Project.png?raw=true" alt="DER">
+
+
 ## Visual Representation
 
-The app will include diagrams to visualize the relationships between users, devices, and access control mechanisms. These diagrams will clarify how data flows between different components of the system, as well as how users will interact with devices.
+<img src="[URL_da_Imagem](https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/FSWD%20Capstone%20Project.png?raw=true)" alt="App HDL">
 
-## Conclusion
 
-The **NetAdmin Portal** aims to simplify the management of network devices by offering a user-friendly platform for IT personnel. With strong emphasis on security, access control, and tracking user actions, the portal will ensure that only authorized users can manage the network devices, while keeping an audit trail of all actions performed.
+

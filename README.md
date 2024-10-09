@@ -63,7 +63,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 # Process flow 
 
-## User Flow: Equipment Addition and Interface Retrieval
+### User Flow: Equipment Addition and Interface Retrieval
 
 1. **User logs into the app.**
 2. **User navigates to the "Equipment" screen.**
@@ -77,12 +77,12 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 10. There is a **"Details" button** next to the equipment entry.
 11. When the user clicks the **"Details" button**, a screen appears showing all interfaces of the equipment along with their respective IP addresses.
 
-### Backend Actions
+#### Backend Actions
 - The backend retrieves the equipment's data (name, interfaces, IPs) after a new equipment is added.
 - The backend creates new entries in the **interfaces table**, linking them to the corresponding equipment entry using foreign key relationships.
 
 
-## User Flow: Equipment Management and Interface Update
+### User Flow: Equipment Management and Interface Update
 
 1. **User logs into the app.**
 2. **User navigates to the "Equipment" screen.**
@@ -99,7 +99,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 11. When the **"Sync" button** is clicked, the frontend sends a request to the backend, asking to update the equipment's information with the current data from the interfaces database.
 12. The user is redirected back to the **"Equipment" screen**.
 
-### Backend Actions
+#### Backend Actions
 - The backend will handle updating the database upon IP modification.
 - The **sync process** fetches the latest data from the interfaces database and updates the equipment's details accordingly.
 

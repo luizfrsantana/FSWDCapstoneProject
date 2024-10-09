@@ -37,7 +37,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 ### Backend
 
-- **Flask** or **Django**: To be used as the backend API, facilitating communication between the devices and the database.
+- **Flask**: To be used as the backend API, facilitating communication between the devices and the database.
 
 ### Database
 

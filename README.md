@@ -61,7 +61,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/FSWD%20Capstone%20Project.png?raw=true" alt="App HDL">
 
 
-## Process flow 
+### Process flow 
   ## Add new device
 - **1**. User logs into the app.
 - **2**. User navigates to the "Equipment" screen.

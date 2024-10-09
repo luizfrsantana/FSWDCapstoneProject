@@ -147,7 +147,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 #### Backend Actions
 - The backend retrieves the **connections data** by querying the database for the associated equipment and their interfaces.
-- The **Sync button** sends a request to the backend to update the connections table with any changes made to the database.
+- The **Sync button** sends a request to the backend to update the connections table with any changes made in the physical connection.
 
 #### Frontend Behavior
 - The frontend displays:

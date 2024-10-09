@@ -130,7 +130,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 1. **User logs into the app.**
 2. **User navigates to the "Connections" screen.**
 3. On this screen, the **connections between equipment** saved in the database are displayed.
-4. The backend constructs this table of connections by querying the equipment table (a physical connection between devices must already be established).
+4. The backend constructs this table of connections by querying network (a physical connection between devices must already be established).
 5. The user can click the **"Sync" button** to update the connections table with the latest data.
 6. On this screen, two sections are displayed:
    - A **graphical representation of the connections** between the equipment.

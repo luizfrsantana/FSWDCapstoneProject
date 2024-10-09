@@ -18,7 +18,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 ### Exploration and Brainstorming
 
 - **Exploration**: For the app to function, spaces will be provided to add, update, delete, and read devices. Access validation will ensure that users only view and interact with devices they have permission to manage.
-- **Brainstorming**: We discussed whether to visualize connections between devices or represent them through text boxes.
+- **Brainstorming**: We discussed whether to visualize connections between devices. https://github.com/visjs/vis-network
 
 ## Required Screens
 

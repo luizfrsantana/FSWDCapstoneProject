@@ -51,7 +51,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 ## Additional Information
 
-- **DER Proposal**: The design and engineering requirements have been discussed and are reflected in the portal's development plan.
+- **ERD Proposal**: The design and engineering requirements have been discussed and are reflected in the portal's development plan.
 - **** Currently, I will need the tables: Equipment, Users, Interfaces, and Connections. The ERD below needs to be updated. ****
 
 <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/DER%20Capstone%20Project.png?raw=true" alt="DER">

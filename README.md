@@ -62,15 +62,15 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 
 ## Process flow 
-- ## Add new device
-- **1**. User logs into the app.
-- **2**. User navigates to the "Equipment" screen.
-- **3**. User clicks on the "Add Equipment" button.
-- **4**. A screen appears requesting the management IP of the equipment.
-- **5**. User inputs the IP information and saves it.
-- **6**. A new entry is created in the equipment table.
-- **7**. The backend performs a query to retrieve the equipment's name, interfaces, and IP addresses.
-- **8**. Using this information, a new entry is created in the interfaces table, with the equipment's primary key (PK) linked as a foreign key (FK).
-- **9**. The equipment name and IP address are displayed to the user on the equipment screen.
-- **10**. There is a "Details" button next to the equipment entry.
-- **11**. When the user clicks this button, a screen shows all interfaces of the equipment along with their respective IP addresses.
+  ## Add new device
+  **1**. User logs into the app.
+  **2**. User navigates to the "Equipment" screen.
+  **3**. User clicks on the "Add Equipment" button.
+  **4**. A screen appears requesting the management IP of the equipment.
+  **5**. User inputs the IP information and saves it.
+  **6**. A new entry is created in the equipment table.
+  **7**. The backend performs a query to retrieve the equipment's name, interfaces, and IP addresses.
+  **8**. Using this information, a new entry is created in the interfaces table, with the equipment's primary key (PK) linked as a foreign key (FK).
+  **9**. The equipment name and IP address are displayed to the user on the equipment screen.
+  **10**. There is a "Details" button next to the equipment entry.
+  **11**. When the user clicks this button, a screen shows all interfaces of the equipment along with their respective IP addresses.

@@ -63,6 +63,28 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 # Process flow 
 
+## User Flow: User Login and Access Level Control
+
+1. **User logs into the app.**
+2. The **backend queries the users table** to verify if the user exists.
+3. If the user is found in the table, the backend **grants access** to the app.
+4. Once access is validated, the backend returns the **user's access level** to the frontend:
+   - **0**: Administrator
+   - **1**: Full Access
+   - **2**: Read-Only
+5. Based on the **access level**:
+   - **Users with access level 2 (Read-Only)** will **not see the "Update", "Create", or "Delete" buttons**.
+   - **Users with access level 0 (Administrator)** and **1 (Full Access)** will have full functionality with these buttons visible.
+
+### Backend Actions
+- The backend checks the **users table** for the login credentials.
+- The **access level** is returned to the frontend upon successful validation of the user.
+
+### Frontend Behavior
+- The frontend **displays or hides** the "Update", "Create", and "Delete" buttons based on the user's access level:
+   - For **read-only users (access level 2)**, these buttons are hidden.
+
+
 ### User Flow: Equipment Addition and Interface Retrieval
 
 1. **User logs into the app.**

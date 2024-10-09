@@ -125,7 +125,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 - The backend will handle updating the database upon IP modification.
 - The **sync process** fetches the latest data from the interfaces database and updates the equipment's details accordingly.
 
-## User Flow: Connection Management and Interface IP Update
+### User Flow: Connection Management and Interface IP Update
 
 1. **User logs into the app.**
 2. **User navigates to the "Connections" screen.**
@@ -145,11 +145,11 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 8. Each row also includes an **"Update" button**, where the user can:
    - Click to add or modify the **IP address** of the interface for either Equipment A or Equipment Z.
 
-### Backend Actions
+#### Backend Actions
 - The backend retrieves the **connections data** by querying the database for the associated equipment and their interfaces.
 - The **Sync button** sends a request to the backend to update the connections table with any changes made to the database.
 
-### Frontend Behavior
+#### Frontend Behavior
 - The frontend displays:
   - A **graphical view** of the equipment and their connections.
   - A **table** with details about each connection, including equipment names, interfaces, and IPs.

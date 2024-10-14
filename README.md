@@ -126,33 +126,56 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 - The backend will handle updating the database upon IP modification.
 - The **sync process** fetches the latest data from the interfaces database and updates the equipment's details accordingly.
 
-### User Flow: Connection Management and Interface IP Update
+# Connection Management - Add and Remove Connections Only
 
-1. **User logs into the app.**
-2. **User navigates to the "Connections" screen.**
-3. On this screen, the **connections between equipment** saved in the database are displayed.
-4. The backend constructs this table of connections by querying network (a physical connection between devices must already be established).
-5. The user can click the **"Sync" button** to update the connections table with the latest data.
-6. On this screen, two sections are displayed:
-   - A **graphical representation of the connections** between the equipment.
-   - A **table** below the graphical representation.
-   
-7. Each row in the table contains the following information:
-   - **Equipment A** (name)
-   - **Interface** and **IP address** for Equipment A
-   - **Equipment Z** (name)
-   - **Interface** and **IP address** for Equipment Z
-   
-8. Each row also includes an **"Update" button**, where the user can:
-   - Click to add or modify the **IP address** of the interface for either Equipment A or Equipment Z.
+## User Flow
 
-#### Backend Actions
-- The backend retrieves the **connections data** by querying the database for the associated equipment and their interfaces.
-- The **Sync button** sends a request to the backend to update the connections table with any changes made in the physical connection.
+### 1. **Login**
+- The user logs into the system.
 
-#### Frontend Behavior
+### 2. **Navigation to the "Connections" Screen**
+- The user navigates to the "Connections" screen.
+
+### 3. **Display of Current Connections**
+- The screen shows the existing connections between equipment that have been saved in the database.
+- The backend queries the physical connections that have already been established between devices.
+
+### 4. **Sync Connections**
+- The user can click the "Sync" button to update the connections table with the latest physical connection data.
+
+### 5. **Connections Screen Layout**
+- The screen is divided into two sections:
+  - **Graphical representation of connections:** A visual view showing devices and their existing connections.
+  - **Connections table:** A table below the graphical view, detailing the connections.
+
+### 6. **Connection Table Row Details**
+Each row in the connection table displays:
+- **Equipment A** (name)
+- **Interface and IP address of Equipment A**
+- **Equipment Z** (name)
+- **Interface and IP address of Equipment Z**
+
+### 7. **Action Buttons**
+- Each row includes a **Remove Connection** button that allows the user to delete an existing connection.
+- An **Add Connection** button is available at the top or in an accessible part of the interface.
+  
+  - When clicking "Add Connection", the user selects:
+    1. **Equipment A** and its corresponding interface.
+    2. **Equipment Z** and its corresponding interface.
+  
+  - The backend checks if the selected interfaces are part of the **same network**, as previously configured in the "Equipment" screen.
+  - If the validation succeeds, the connection is added.
+  - Otherwise, an error message is displayed indicating that the interfaces are not part of the same network.
+
+### 8. **Backend Actions**
+- The backend retrieves connection data by querying the database for associated equipment and their interfaces.
+- The "Sync" button sends a request to the backend to update the connections table with any changes in the physical connection.
+
+### 9. **Frontend Behavior**
 - The frontend displays:
-  - A **graphical view** of the equipment and their connections.
-  - A **table** with details about each connection, including equipment names, interfaces, and IPs.
-  - **Update buttons** for each connection, allowing the user to modify the IP addresses of interfaces.
+  - A graphical view of the equipment and their connections.
+  - A table with details about each connection, including equipment names, interfaces, and IP addresses.
+  - Buttons to **Add** or **Remove** connections.
+  
+- For adding a connection, the frontend validates that the selected interfaces belong to the same network, based on the information configured in the "Equipment" screen.
 

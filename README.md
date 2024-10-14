@@ -126,9 +126,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 - The backend will handle updating the database upon IP modification.
 - The **sync process** fetches the latest data from the interfaces database and updates the equipment's details accordingly.
 
-# Connection Management - Add and Remove Connections Only
-
-## User Flow
+### User Flow: Connection Management - Add and Remove Connections Only
 
 ### 1. **Login**
 - The user logs into the system.
@@ -167,11 +165,11 @@ Each row in the connection table displays:
   - If the validation succeeds, the connection is added.
   - Otherwise, an error message is displayed indicating that the interfaces are not part of the same network.
 
-### 8. **Backend Actions**
+#### 8. **Backend Actions**
 - The backend retrieves connection data by querying the database for associated equipment and their interfaces.
 - The "Sync" button sends a request to the backend to update the connections table with any changes in the physical connection.
 
-### 9. **Frontend Behavior**
+#### 9. **Frontend Behavior**
 - The frontend displays:
   - A graphical view of the equipment and their connections.
   - A table with details about each connection, including equipment names, interfaces, and IP addresses.

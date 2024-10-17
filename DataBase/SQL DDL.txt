@@ -13,7 +13,26 @@ CREATE TABLE users (
     status ENUM('active', 'inactive') DEFAULT 'active'
 );
 
+===========
+
+CREATE TABLE logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    device_id INT NOT NULL,
+    action_description TEXT NOT NULL, 
+    action_type ENUM('create', 'update', 'delete', 'maintenance', 'other') DEFAULT 'update',
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    previous_state TEXT, 
+    new_state TEXT,
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_device
+        FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE 
+);
+
 ==========
+
+
 
 CREATE TABLE devices (
     id INT AUTO_INCREMENT PRIMARY KEY,           
@@ -66,20 +85,4 @@ CREATE TABLE connections (
         FOREIGN KEY (id_interface_a) REFERENCES interfaces(id) ON DELETE CASCADE,
     CONSTRAINT fk_interface_z
         FOREIGN KEY (id_interface_z) REFERENCES interfaces(id) ON DELETE CASCADE 
-);
-===========
-
-CREATE TABLE logs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    device_id INT NOT NULL,
-    action_description TEXT NOT NULL, 
-    action_type ENUM('create', 'update', 'delete', 'maintenance', 'other') DEFAULT 'update',
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    previous_state TEXT, 
-    new_state TEXT,
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_device
-        FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE 
 );

@@ -153,4 +153,4 @@ This API allows managing network connections, users, devices, and interfaces for
 To run the Flask application, execute:
 
 ```bash
-python app.py
+python3 flask run --host=0.0.0.0

@@ -1,0 +1,7 @@
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=admin123 -e MYSQL_DATABASE=mydatabase -p 3306:3306 -d mysql:latest
+docker ps
+docker exec -it mysql-container mysql -u root -p
+
+OBS: docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=mydatabase -p 3306:3306 -v /meu/caminho/para/dados:/var/lib/mysql -d mysql:latest
+
+sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-container

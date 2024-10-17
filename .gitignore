@@ -1,0 +1,17 @@
+# Ignore the virtual environment directory
+BackEnd/venv/
+BackEnd/env/
+
+# Python cache files
+BackEnd/__pycache__/
+BackEnd/*.pyc
+
+# Flask instance folder
+BackEnd/instance/
+
+# Logs
+BackEnd/*.log
+
+# IDE-specific files
+BackEnd/.vscode/
+BackEnd/.idea/

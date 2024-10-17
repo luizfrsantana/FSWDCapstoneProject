@@ -68,8 +68,9 @@ def add_user():
     username = request.json['username']
     password = request.json['password']
     role = request.json['role']
+    email = request.json['email']
     hashed_password = generate_password_hash(password)
-    add_user_to_database(mysql, username, hashed_password, role)
+    add_user_to_database(mysql, username, hashed_password, role, email)
     return "User add!"
 
 

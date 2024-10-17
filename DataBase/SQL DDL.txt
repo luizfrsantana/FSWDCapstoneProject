@@ -65,7 +65,7 @@ CREATE TABLE interfaces (
     speed VARCHAR(20),
     vlan INT,
     last_active TIMESTAMP,
-    CONSTRAINT fk_device
+    CONSTRAINT fk_device_id
         FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE,
     UNIQUE (ip)
 );

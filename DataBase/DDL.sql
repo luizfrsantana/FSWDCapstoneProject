@@ -39,7 +39,7 @@ CREATE TABLE devices (
     device_name VARCHAR(50),        
     mgmt_ip VARCHAR(255) NOT NULL,             
     vendor VARCHAR(50) NOT NULL,                        
-    os_version VARCHAR(50),          
+    os_version VARCHAR(255),          
     serial_number VARCHAR(100),          
     model VARCHAR(50),          
     location VARCHAR(100),        

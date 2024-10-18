@@ -1,0 +1,10 @@
+sudo apt update
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+node -v
+npm -v
+npx create-react-app frontend
+npm install react-router-dom
+npm install axios
+npm install @mui/material @emotion/react @emotion/styled
+

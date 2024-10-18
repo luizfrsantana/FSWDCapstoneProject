@@ -15,3 +15,17 @@ BackEnd/*.log
 # IDE-specific files
 BackEnd/.vscode/
 BackEnd/.idea/
+
+# Node.js dependencies
+FrontEnd/node_modules/
+
+# Build output directory
+FrontEnd/build/
+
+# Environment variables file
+FrontEnd/.env
+
+# Log files
+FrontEnd/npm-debug.log*
+FrontEnd/yarn-debug.log*
+FrontEnd/yarn-error.log*

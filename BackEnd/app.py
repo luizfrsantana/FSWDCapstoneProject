@@ -58,7 +58,7 @@ def user():
 
     return jsonify(user)
 
-@app.route('/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'])
 def users():
     user = get_users(mysql)
     return jsonify(user)
@@ -101,7 +101,7 @@ def update_user_field():
 
     return f"User {field} updated successfully!", 200
 
-@app.route('/delete_user', methods=['DELETE'])
+@app.route('/api/delete_user', methods=['DELETE'])
 def delete_user():
     user_id = request.args.get('user_id')
 
@@ -149,6 +149,7 @@ def add_device():
     elif vendor.lower() == 'juniper':
         device_informations = get_juniper_informations(mgmt_ip)
         is_juniper = True
+        
     else:
         return jsonify({"status":"error", "message": "Vendor {vendor} not supported"}), 400
 

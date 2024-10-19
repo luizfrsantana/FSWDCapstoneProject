@@ -29,10 +29,13 @@ def get_user_by_id(mysql, user_id):
 
 def get_users(mysql):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users")
+    cur.execute("SELECT id, username, full_name, email, phone_number, role, created_at, updated_at, status FROM users")
+    columns = [col[0] for col in cur.description]
     users = cur.fetchall()
     cur.close()
-    return users
+    result = [dict(zip(columns, user)) for user in users]
+
+    return result
 
 def update_user_field_by_id(mysql, field, new_value, user_id):
     cur = mysql.connection.cursor()

@@ -4,7 +4,7 @@ import TextField from "../TextField"
 import DropDownList from "../DropDownList"
 import Button from "../Button"
 
-const FormUser = (props) => {
+const FormUser = ({ onUserAdded }) => {
 
     const userStatus = ["active","inactive"]
     const userRoles = ["Admin","User"]
@@ -56,6 +56,11 @@ const FormUser = (props) => {
             setPhoneNumber("");
             setStatus("inactive");
             setProfile_picture("");
+
+            if (onUserAdded) {
+              onUserAdded();
+            }
+
           })
           .catch((error) => {
             console.error("Erro:", error);
@@ -66,7 +71,7 @@ const FormUser = (props) => {
     return (
         <section className="form">
             <form onSubmit={submitHandler}>
-                <h2>Fill in the details to register a new {props.object}</h2>
+                <h2>Fill in the details</h2>
                 <TextField 
                     mandatory={true} 
                     label="Username"

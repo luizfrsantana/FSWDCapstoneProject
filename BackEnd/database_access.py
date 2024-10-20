@@ -9,7 +9,7 @@ def user_exists(mysql, user_id):
     return result[0] == 1
 
 
-def add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName):
+def add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture):
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO users (username, password, role, email, phone_number,status, full_name, profile_picture) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture))
     mysql.connection.commit()

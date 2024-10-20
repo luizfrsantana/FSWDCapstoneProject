@@ -16,6 +16,8 @@ const FormUser = (props) => {
     const [phoneNumber, setPhoneNumber] = useState("")
     const [status, setStatus] = useState("inactive")
     const [role, setRole] = useState("User")
+    const [profile_picture, setProfile_picture] = useState("")
+    
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -28,6 +30,7 @@ const FormUser = (props) => {
           email,
           phoneNumber,
           status,
+          profile_picture,
         };
     
         fetch("http://192.168.56.107:5000/api/user", {
@@ -52,6 +55,7 @@ const FormUser = (props) => {
             setEmail("");
             setPhoneNumber("");
             setStatus("inactive");
+            setProfile_picture("");
           })
           .catch((error) => {
             console.error("Erro:", error);
@@ -91,6 +95,12 @@ const FormUser = (props) => {
                     label="Phone Number"
                     value={phoneNumber}
                     setValue = {value => setPhoneNumber(value)}  
+                />
+
+                <TextField 
+                    label="URL Profile Picture"
+                    value={profile_picture}
+                    setValue = {value => setProfile_picture(value)}  
                 />
 
                 <DropDownList 

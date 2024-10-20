@@ -63,6 +63,7 @@ def handle_user():
         username = request.json.get('username')
         password = request.json.get('password')
         fullName = request.json.get('fullName')
+        profile_picture = request.json.get('profile_picture')
         role = request.json.get('role')
         email = request.json.get('email')
         phoneNumber = request.json.get('phoneNumber')
@@ -73,7 +74,7 @@ def handle_user():
 
         hashed_password = generate_password_hash(password)
         try:
-            add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName)
+            add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture)
             return "User added!", 201 
         except Exception as e:
             return f"Error adding user: {str(e)}", 500

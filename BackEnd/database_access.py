@@ -11,7 +11,7 @@ def user_exists(mysql, user_id):
 
 def add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName):
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO users (username, password, role, email, phone_number,status, full_name ) VALUES (%s, %s, %s, %s, %s, %s, %s)", (username, hashed_password, role, email, phoneNumber, status, fullName))
+    cur.execute("INSERT INTO users (username, password, role, email, phone_number,status, full_name, profile_picture) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture))
     mysql.connection.commit()
     cur.close()
 
@@ -30,7 +30,7 @@ def get_user_by_id(mysql, user_id):
 
 def get_users(mysql):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, username, full_name, email, phone_number, role, created_at, updated_at, status FROM users")
+    cur.execute("SELECT id, username, full_name, email, phone_number, role, created_at, updated_at, status, profile_picture FROM users")
     columns = [col[0] for col in cur.description]
     users = cur.fetchall()
     cur.close()

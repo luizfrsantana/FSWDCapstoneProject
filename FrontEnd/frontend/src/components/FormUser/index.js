@@ -4,7 +4,7 @@ import TextField from "../TextField"
 import DropDownList from "../DropDownList"
 import Button from "../Button"
 
-const FormUser = (props) => {
+const FormUser = ({ onUserAdded }) => {
 
     const userStatus = ["active","inactive"]
     const userRoles = ["Admin","User"]
@@ -16,10 +16,12 @@ const FormUser = (props) => {
     const [phoneNumber, setPhoneNumber] = useState("")
     const [status, setStatus] = useState("inactive")
     const [role, setRole] = useState("User")
+    const [profile_picture, setProfile_picture] = useState("")
+    
 
     const submitHandler = (event) => {
         event.preventDefault();
-    
+  
         const newUser = {
           username,
           password,
@@ -28,6 +30,7 @@ const FormUser = (props) => {
           email,
           phoneNumber,
           status,
+          profile_picture,
         };
     
         fetch("http://192.168.56.107:5000/api/user", {
@@ -52,6 +55,12 @@ const FormUser = (props) => {
             setEmail("");
             setPhoneNumber("");
             setStatus("inactive");
+            setProfile_picture("");
+
+            if (onUserAdded) {
+              onUserAdded();
+            }
+
           })
           .catch((error) => {
             console.error("Erro:", error);
@@ -62,7 +71,7 @@ const FormUser = (props) => {
     return (
         <section className="form">
             <form onSubmit={submitHandler}>
-                <h2>Fill in the details to register a new {props.object}</h2>
+                <h2>Fill in the details</h2>
                 <TextField 
                     mandatory={true} 
                     label="Username"
@@ -91,6 +100,12 @@ const FormUser = (props) => {
                     label="Phone Number"
                     value={phoneNumber}
                     setValue = {value => setPhoneNumber(value)}  
+                />
+
+                <TextField 
+                    label="URL Profile Picture"
+                    value={profile_picture}
+                    setValue = {value => setProfile_picture(value)}  
                 />
 
                 <DropDownList 

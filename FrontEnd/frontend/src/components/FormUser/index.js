@@ -21,7 +21,7 @@ const FormUser = ({ onUserAdded }) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-    
+  
         const newUser = {
           username,
           password,

@@ -1,12 +1,13 @@
 import { useState } from "react"
-import "./Form.css"
+import "./FormUser.css"
 import TextField from "../TextField"
 import DropDownList from "../DropDownList"
 import Button from "../Button"
 
-const Form = (props) => {
+const FormUser = (props) => {
 
     const userStatus = ["active","inactive"]
+    const userRoles = ["Admin","User"]
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -14,11 +15,49 @@ const Form = (props) => {
     const [email, setEmail] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
     const [status, setStatus] = useState("inactive")
+    const [role, setRole] = useState("User")
 
     const submitHandler = (event) => {
-        event.preventDefault()
-        console.log("Oi => ",username,fullName )
-    }
+        event.preventDefault();
+    
+        const newUser = {
+          username,
+          password,
+          fullName,
+          role,
+          email,
+          phoneNumber,
+          status,
+        };
+    
+        fetch("http://192.168.56.107:5000/api/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error adding user");
+            }
+            return response.text();
+          })
+          .then((data) => {
+            console.log(data);
+            alert("User added successfully!");
+            setUsername("");
+            setPassword("");
+            setFullName("");
+            setEmail("");
+            setPhoneNumber("");
+            setStatus("inactive");
+          })
+          .catch((error) => {
+            console.error("Erro:", error);
+            alert("Failed to add user");
+          });
+      };
 
     return (
         <section className="form">
@@ -53,6 +92,14 @@ const Form = (props) => {
                     value={phoneNumber}
                     setValue = {value => setPhoneNumber(value)}  
                 />
+
+                <DropDownList 
+                    label="Role" 
+                    itens= {userRoles}
+                    value={role}
+                    setValue = {value => setRole(value)}   
+                />                 
+
                 <DropDownList 
                     label="Status" 
                     itens= {userStatus}
@@ -65,4 +112,4 @@ const Form = (props) => {
     )
 }
 
-export default Form
+export default FormUser

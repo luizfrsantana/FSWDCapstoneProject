@@ -7,6 +7,7 @@ CREATE TABLE users (
     full_name VARCHAR(100),
     email VARCHAR(100) NOT NULL,
     phone_number VARCHAR(15),
+    profile_picture VARCHAR(255),
     role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

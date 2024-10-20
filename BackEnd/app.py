@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from set_juniper_interfaces_config import configure_juniper
 from set_cisco_interfaces_config import configure_cisco
 from flask_mysqldb import MySQL
@@ -11,6 +12,7 @@ from device_reachable import is_device_reachable
 from database_access import *
 
 app = Flask(__name__)
+CORS(app)
 
 ###### Database access parameters ######
 app.config['MYSQL_HOST'] = '172.17.0.2'
@@ -51,27 +53,46 @@ def user():
     if not user_id:
         return "User ID is required!", 400
 
-    if not user_exists(mysql, user_id):
-        return f"User with ID {user_id} does not exist!", 404
 
-    user = get_user_by_id(mysql, user_id)
 
-    return jsonify(user)
+@app.route('/api/user', methods=['POST', 'GET'])
+def handle_user():
+    user_id = request.args.get('user_id')
+    
+    if request.method == 'POST':
+        username = request.json.get('username')
+        password = request.json.get('password')
+        fullName = request.json.get('fullName')
+        role = request.json.get('role')
+        email = request.json.get('email')
+        phoneNumber = request.json.get('phoneNumber')
+        status = request.json.get('status')
 
-@app.route('/api/users', methods=['GET'])
-def users():
-    user = get_users(mysql)
-    return jsonify(user)
+        if not all([username, password, role, email]):
+            return "Missing required fields!", 400
 
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    username = request.json['username']
-    password = request.json['password']
-    role = request.json['role']
-    email = request.json['email']
-    hashed_password = generate_password_hash(password)
-    add_user_to_database(mysql, username, hashed_password, role, email)
-    return "User add!"
+        hashed_password = generate_password_hash(password)
+        try:
+            add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName)
+            return "User added!", 201 
+        except Exception as e:
+            return f"Error adding user: {str(e)}", 500
+
+    elif request.method == 'GET' and not user_id:
+        try:
+            users = get_users(mysql)
+            return jsonify(users), 200
+        except Exception as e:
+            return f"Error fetching users: {str(e)}", 500
+        
+    elif request.method == 'GET' and user_id:
+        if not user_exists(mysql, user_id):
+            return f"User with ID {user_id} does not exist!", 404
+
+        user = get_user_by_id(mysql, user_id)
+
+        return jsonify(user)
+
 
 
 @app.route('/update_user_field', methods=['PATCH'])

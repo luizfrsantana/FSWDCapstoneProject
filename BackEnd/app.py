@@ -46,16 +46,7 @@ def delete_connection():
 
 ##### USER ROUTES #####
 
-@app.route('/user', methods=['GET'])
-def user():
-    user_id = request.args.get('user_id')
-
-    if not user_id:
-        return "User ID is required!", 400
-
-
-
-@app.route('/api/user', methods=['POST', 'GET'])
+@app.route('/api/user', methods=['POST', 'GET', 'DELETE'])
 def handle_user():
     user_id = request.args.get('user_id')
     
@@ -93,8 +84,16 @@ def handle_user():
         user = get_user_by_id(mysql, user_id)
 
         return jsonify(user)
+    elif request.method == 'DELETE':
+        if not user_id:
+            return "User ID is required!", 400
+        
+        if not user_exists(mysql, user_id):
+            return f"User with ID {user_id} does not exist!", 404
+        
+        delete_user_by_id(mysql, user_id)
 
-
+        return f"User with ID {user_id} deleted!", 200
 
 @app.route('/update_user_field', methods=['PATCH'])
 def update_user_field():
@@ -123,19 +122,6 @@ def update_user_field():
 
     return f"User {field} updated successfully!", 200
 
-@app.route('/api/delete_user', methods=['DELETE'])
-def delete_user():
-    user_id = request.args.get('user_id')
-
-    if not user_id:
-        return "User ID is required!", 400
-
-    if not user_exists(mysql, user_id):
-        return f"User with ID {user_id} does not exist!", 404
-
-    delete_user_by_id(mysql, user_id)
-
-    return f"User with ID {user_id} deleted!", 200
 
 
 ##### DEVICES ROUTES #####

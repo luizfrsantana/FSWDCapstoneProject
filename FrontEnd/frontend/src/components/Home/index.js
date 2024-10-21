@@ -1,8 +1,8 @@
 const Home = () => {
     return (
         <div className="home">
-            <h1>Welcome to the FSWD Capstone Project</h1>
-            <p>The FSWD Capstone Project is a user-friendly platform designed to help network administrators manage and configure network devices easily and efficiently.</p>
+            <h1>Welcome to the NETADMIN </h1>
+            <p>The NetAdmin is a user-friendly platform designed to help network administrators manage and configure network devices easily and efficiently.</p>
     
             <h2>Key Features</h2>
     

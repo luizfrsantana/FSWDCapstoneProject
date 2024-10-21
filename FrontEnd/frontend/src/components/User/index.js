@@ -1,25 +1,27 @@
 import "./User.css"
 
-const User = (props, {onUserDeleted}) => {
+const User = (props) => {
 
-    const deleteUser = async () => {
-        try {
-          const response = await fetch(`http://192.168.56.107:5000/api/user?user_id=${props.user.id}`, {
-            method: "DELETE",
-          });
-    
-          if (response.ok) {
-            alert("User deleted successfully!");
-            if (onUserDeleted) {
-                onUserDeleted();
-              }
-          } else {
-            alert("Failed to delete user");
-          }
-        } catch (error) {
-          console.error("Error deleting user:", error);
+  const deleteUser = async () => {
+    try {
+      const response = await fetch(`http://192.168.56.107:5000/api/user?user_id=${props.user.id}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        alert("User deleted successfully!");
+        if (props.onUserDeleted) {
+          props.onUserDeleted(); 
+        } else {
+          console.log("onUserDeleted is not defined");
         }
-      };
+      } else {
+        alert("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
     return (
         <div className="user">

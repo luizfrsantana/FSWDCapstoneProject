@@ -24,7 +24,7 @@ const UserPage = () =>{
     return(
         <div className="userpage">
             <FormUser onUserAdded={loadUsers} />
-            <Users users={users} />
+            <Users users={users} onUserDeleted={loadUsers} />
         </div>
     )
 }

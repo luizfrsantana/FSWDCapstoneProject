@@ -7,7 +7,7 @@ import Button from "../Button"
 const FormUser = ({ onUserAdded }) => {
 
     const userStatus = ["active","inactive"]
-    const userRoles = ["Admin","User"]
+    const userRoles = ["Administrator","Full Access","Read-Only"]
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -109,7 +109,7 @@ const FormUser = ({ onUserAdded }) => {
                 />
 
                 <DropDownList 
-                    label="Role" 
+                    label="Access Level" 
                     itens= {userRoles}
                     value={role}
                     setValue = {value => setRole(value)}   

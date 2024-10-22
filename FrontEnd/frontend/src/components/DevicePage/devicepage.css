@@ -1,0 +1,57 @@
+.devicepage {
+    max-width: 100%;
+    height: fit-content;
+}
+
+.devicepage .addpanel {
+    border: 1px solid;
+    height: 60px;
+    background-color:darkgray;
+}
+
+.devicepage .addpaneldiv{
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.devicepage .addpanelinput {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 140px;
+    height: 25px;
+}
+
+.devicepage .addBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 60px;
+    background-color: greenyellow;
+}
+
+.devicepage .delBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 60px;
+    background-color: rgb(245, 14, 14);
+}
+
+.devicepage .inputSearch {
+    margin-top: 5px;
+    width: 300px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+.devicepage .data-table-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px; 
+}

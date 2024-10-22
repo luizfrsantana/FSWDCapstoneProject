@@ -6,14 +6,46 @@ import DataTable from  "react-data-table-component";
 const InterfacePage = () => {
 
   const columns = [
-    {name:"ID", selector:row=>row.id},
-    {name:"Interface Name", selector:row=>row.interface_name},
-    {name:"Device Name", selector:row=>row.device_name},
-    {name:"MGMT IP", selector:row=>row.ip},
-    {name:"Vendor", selector:row=>row.vendor},
-    {name:"OS Version", selector:row=>row.speed},
-    {name:"Serial Number", selector:row=>row.vlan},
-    {name:"Model", selector:row=>row.last_active},
+    {
+      name: "Interface Name",
+      selector: row => row.interface_name,
+      cell: row => <div title={row.interface_name}>{row.interface_name}</div>,
+    },
+    {
+      name: "Device Name",
+      selector: row => row.device_name,
+      cell: row => <div title={row.device_name}>{row.device_name}</div>,
+    },
+    {
+      name: "Description",
+      selector: row => row.description,
+      cell: row => <div title={row.description}>{row.description}</div>,
+    },
+    {
+      name: "IP",
+      selector: row => row.ip,
+      cell: row => <div title={row.ip}>{row.ip}</div>,
+    },
+    {
+      name: "Status",
+      selector: row => row.status,
+      cell: row => <div title={row.status}>{row.status}</div>,
+    },
+    {
+      name: "Speed",
+      selector: row => row.speed,
+      cell: row => <div title={row.speed}>{row.speed}</div>,
+    },
+    {
+      name: "Vlan",
+      selector: row => row.vlan,
+      cell: row => <div title={row.vlan}>{row.vlan}</div>,
+    },
+    {
+      name: "Last Active",
+      selector: row => row.last_active,
+      cell: row => <div title={row.last_active}>{row.last_active}</div>,
+    },
   ];
   
   const [interfaces,setInterfaces] = useState([]);

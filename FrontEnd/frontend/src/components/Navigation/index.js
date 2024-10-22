@@ -18,6 +18,9 @@ const Navigation = () => {
             <li>
                 <Link to="/interfaces">Interfaces</Link>
             </li>
+            <li>
+                <Link to="/connections">Connections</Link>
+            </li>
             </ul>
         </nav>
       </div>

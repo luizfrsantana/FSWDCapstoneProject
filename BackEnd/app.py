@@ -25,7 +25,7 @@ mysql = MySQL(app)
 
 ##### CONNECTIONS ROUTES #####
 
-@app.route('/get_connections', methods=['GET'])
+@app.route('/api/connections', methods=['GET'])
 def get_connections():
     result = get_connections_db(mysql)
     return jsonify(result)
@@ -147,57 +147,53 @@ def update_user_field():
 
 ##### DEVICES ROUTES #####
 
-@app.route('/api/device', methods=['GET'])
-def getAlldevices():
-    result = get_devices(mysql)
-    return jsonify(result)
-
-
-@app.route('/delete_device', methods=['DELETE'])
-def delete_device():
+@app.route('/api/device', methods=['GET','POST','DELETE'])
+def handle_device():
     mgmt_ip = request.args.get('mgmt_ip')
+    id = request.args.get('id')
 
-    try:
-        delete_device_to_database(mysql, mgmt_ip)
-    except Exception as e:
-        return f"Error deleting device: {str(e)}", 500
+    if request.method == "GET":
+        result = get_devices(mysql)
+        return jsonify(result)
     
-    return f"Device with MGTM IP {mgmt_ip} deleted!", 200
+    elif request.method == 'POST':
+        data = request.json
+        mgmt_ip = data.get('mgmt_ip')
+        vendor = data.get('vendor')
 
-@app.route('/add_device', methods=['POST'])
-def add_device():
-    data = request.json
-    mgmt_ip = data.get('mgmt_ip')
-    vendor = data.get('vendor')
-
-    try:
-        add_device_to_database(mysql, mgmt_ip, vendor)
-    except Exception as e:
-        return f"Error adding device: {str(e)}", 500
-    
-    if not is_device_reachable(mgmt_ip):
-        return jsonify({"status": "error", "message": f"Device {mgmt_ip} is not reachable"}), 500
-    
-    if vendor.lower() == 'cisco':
-        device_informations = get_cisco_informations(mgmt_ip)
-        is_juniper = False
-    elif vendor.lower() == 'juniper':
-        device_informations = get_juniper_informations(mgmt_ip)
-        is_juniper = True
+        try:
+            add_device_to_database(mysql, mgmt_ip, vendor)
+        except Exception as e:
+            return f"Error adding device: {str(e)}", 500
         
-    else:
-        return jsonify({"status":"error", "message": "Vendor {vendor} not supported"}), 400
+        if not is_device_reachable(mgmt_ip):
+            return jsonify({"status": "error", "message": f"Device {mgmt_ip} is not reachable"}), 500
+        
+        if vendor.lower() == 'cisco':
+            device_informations = get_cisco_informations(mgmt_ip)
+        elif vendor.lower() == 'juniper':
+            device_informations = get_juniper_informations(mgmt_ip)
+        else:
+            return jsonify({"status":"error", "message": "Vendor {vendor} not supported"}), 400
 
-    if not all([device_informations]):
-        return jsonify({"status":"error", "message": "Missing parameters"}), 400
+        if not all([device_informations]):
+            return jsonify({"status":"error", "message": "Missing parameters"}), 400
+        
+        try:
+            update_device_informations(mysql, mgmt_ip, device_informations)
+        except Exception as e:
+            return f"Error updating device informations: {str(e)}", 500
+        
+        result = get_device_by_ip_database(mysql, mgmt_ip)
+        return jsonify(result)
     
-    try:
-        update_device_informations(mysql, mgmt_ip, device_informations)
-    except Exception as e:
-        return f"Error updating device informations: {str(e)}", 500
-    
-    result = get_device_by_ip_database(mysql, mgmt_ip)
-    return jsonify(result)
+    elif request.method == "DELETE" and id:
+        try:
+            delete_device_to_database(mysql, id)
+        except Exception as e:
+            return f"Error deleting device: {str(e)}", 500
+        
+        return f"Device deleted!", 200
 
 @app.route('/update_device', methods=['PATCH'])
 def update_device():

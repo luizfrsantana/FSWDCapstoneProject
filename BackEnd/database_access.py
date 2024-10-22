@@ -51,9 +51,9 @@ def update_user_field_by_id(mysql, username, role, email, phoneNumber, status, f
 
 ### Devices DB ###
 
-def delete_device_to_database(mysql, mgmt_ip):
+def delete_device_to_database(mysql, id):
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM devices WHERE mgmt_ip = %s;", (mgmt_ip,))
+    cur.execute("DELETE FROM devices WHERE id = %s;", (id,))
     mysql.connection.commit()
     cur.close()
 
@@ -106,11 +106,12 @@ def get_connections_db(mysql):
         JOIN interfaces i_z ON c.id_interface_z = i_z.id
         JOIN devices d_z ON i_z.device_id = d_z.id;
     """)
-    
+
+    columns = [col[0] for col in cur.description]
     connections = cur.fetchall()
-    cur.close() 
-    
-    return connections 
+    cur.close()
+    result = [dict(zip(columns, connection)) for connection in connections]
+    return result
 
 def action_connection_to_db(mysql, action, id_connection_a, id_connection_z):
     cur = mysql.connection.cursor()

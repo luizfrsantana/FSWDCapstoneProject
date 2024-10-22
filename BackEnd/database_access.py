@@ -38,9 +38,14 @@ def get_users(mysql):
 
     return result
 
-def update_user_field_by_id(mysql, field, new_value, user_id):
+def update_user_field_by_id(mysql, username, role, email, phoneNumber, status, fullName, profile_picture, user_id):
     cur = mysql.connection.cursor()
-    cur.execute(f"UPDATE users SET {field} = %s WHERE id = %s", (new_value, user_id))
+    cur.execute("""
+    UPDATE users 
+    SET username = %s, full_name = %s, email = %s, phone_number = %s, status = %s, role = %s, profile_picture = %s
+    WHERE id = %s
+    """, (username, fullName, email, phoneNumber, status, role, profile_picture, user_id, ))
+
     mysql.connection.commit()
     cur.close()
 
@@ -54,10 +59,12 @@ def delete_device_to_database(mysql, mgmt_ip):
 
 def get_devices(mysql):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, device_name, mgmt_ip,vendor,os_version FROM devices")
+    cur.execute("SELECT id, device_name, mgmt_ip,vendor,os_version, serial_number, model, status, installation_date, warranty_expiration, last_maintenance, support_contact, notes FROM devices")
+    columns = [col[0] for col in cur.description]
     devices = cur.fetchall()
     cur.close()
-    return devices
+    result = [dict(zip(columns, device)) for device in devices]
+    return result
 
 def add_device_to_database(mysql, mgmt_ip, vendor):
     cur = mysql.connection.cursor()
@@ -145,3 +152,26 @@ def save_interfaces_to_db(mysql, device_id, interfaces, is_juniper=False):
 
     mysql.connection.commit()
     cur.close()
+
+
+    ### Interfaces DB ###
+
+def get_interfaces(mysql):
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT interfaces.id, 
+                    interfaces.interface_name, 
+                    interfaces.ip, 
+                    interfaces.description, 
+                    devices.device_name AS device_name, 
+                    interfaces.status, 
+                    interfaces.speed, 
+                    interfaces.vlan, 
+                    interfaces.last_active
+                    FROM interfaces
+                    JOIN devices ON interfaces.device_id = devices.id;
+    """)
+    columns = [col[0] for col in cur.description]
+    interfaces = cur.fetchall()
+    cur.close()
+    result = [dict(zip(columns, interface)) for interface in interfaces]
+    return result

@@ -46,7 +46,7 @@ def delete_connection():
 
 ##### USER ROUTES #####
 
-@app.route('/api/user', methods=['POST', 'GET', 'DELETE'])
+@app.route('/api/user', methods=['POST', 'GET', 'DELETE', 'PUT'])
 def handle_user():
     user_id = request.args.get('user_id')
     
@@ -94,7 +94,28 @@ def handle_user():
         delete_user_by_id(mysql, user_id)
 
         return f"User with ID {user_id} deleted!", 200
+    
+    elif request.method == 'PUT' and user_id:
+        if not user_exists(mysql, user_id):
+            return f"User with ID {user_id} does not exist!", 404
+        
+        username = request.json.get('username')
+        fullName = request.json.get('fullName')
+        profile_picture = request.json.get('profile_picture')
+        role = request.json.get('role')
+        email = request.json.get('email')
+        phoneNumber = request.json.get('phoneNumber')
+        status = request.json.get('status')
 
+        if not all([username, role, email]):
+            return "Missing required fields!", 400
+
+        try:
+            update_user_field_by_id(mysql, username, role, email, phoneNumber, status, fullName, profile_picture, user_id)
+            return "User added!", 201 
+        except Exception as e:
+            return f"Error adding user: {str(e)}", 500
+        
 @app.route('/update_user_field', methods=['PATCH'])
 def update_user_field():
     user_id = request.args.get('user_id')
@@ -125,6 +146,12 @@ def update_user_field():
 
 
 ##### DEVICES ROUTES #####
+
+@app.route('/api/device', methods=['GET'])
+def getAlldevices():
+    result = get_devices(mysql)
+    return jsonify(result)
+
 
 @app.route('/delete_device', methods=['DELETE'])
 def delete_device():
@@ -195,6 +222,11 @@ def update_device():
     return jsonify(result)
 
 ##### INTERFACES ROUTES #####
+
+@app.route('/api/interface', methods=['GET'])
+def getAllinterfaces():
+    result = get_interfaces(mysql)
+    return jsonify(result)
 
 @app.route('/update_interfaces', methods=['GET'])
 def update_interfaces():

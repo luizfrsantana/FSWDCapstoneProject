@@ -23,6 +23,7 @@ const User = (props) => {
     }
   };
 
+
     return (
         <div className="user">
             <div className="header">
@@ -34,7 +35,7 @@ const User = (props) => {
                 <h5>{props.user.username}</h5>
                 <h5>{props.user.email}</h5>
                 <h5>{props.user.status}</h5>
-                <button onClick={deleteUser}>Delete User</button>
+                <button onClick={deleteUser}>Delete</button>
             </div>
         </div>
     )

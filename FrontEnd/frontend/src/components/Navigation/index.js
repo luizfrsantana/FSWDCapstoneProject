@@ -12,6 +12,12 @@ const Navigation = () => {
             <li>
                 <Link to="/users">Users</Link>
             </li>
+            <li>
+                <Link to="/devices">Devices</Link>
+            </li>
+            <li>
+                <Link to="/interfaces">Interfaces</Link>
+            </li>
             </ul>
         </nav>
       </div>

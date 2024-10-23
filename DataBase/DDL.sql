@@ -44,7 +44,7 @@ CREATE TABLE devices (
     serial_number VARCHAR(100),          
     model VARCHAR(50),          
     location VARCHAR(100),        
-    status ENUM('active', 'inactive', 'maintenance') DEFAULT 'active',
+    status ENUM('UP', 'DOWN') DEFAULT 'UP',
     installation_date DATE,
     warranty_expiration DATE, 
     last_maintenance TIMESTAMP,
@@ -52,6 +52,7 @@ CREATE TABLE devices (
     notes TEXT,         
     UNIQUE (mgmt_ip)                         
 );
+
 
 
 ==========

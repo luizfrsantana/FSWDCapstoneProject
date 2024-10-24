@@ -59,16 +59,16 @@ def delete_device_to_database(mysql, id):
 
 def get_devices(mysql):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, device_name, mgmt_ip,vendor,os_version, serial_number, model, status, installation_date, warranty_expiration, last_maintenance, support_contact, notes FROM devices")
+    cur.execute("SELECT id, device_name, mgmt_ip,vendor,location, os_version, serial_number, model, status, installation_date, warranty_expiration, last_maintenance, support_contact, notes FROM devices")
     columns = [col[0] for col in cur.description]
     devices = cur.fetchall()
     cur.close()
     result = [dict(zip(columns, device)) for device in devices]
     return result
 
-def add_device_to_database(mysql, mgmt_ip, vendor):
+def add_device_to_database(mysql, mgmt_ip, vendor, location, installation_date,warranty_expiration,last_maintenance,support_contact,notes, status):
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO devices (mgmt_ip, vendor) VALUES (%s, %s)", (mgmt_ip, vendor))
+    cur.execute("INSERT INTO devices (mgmt_ip, vendor,location, installation_date,warranty_expiration,last_maintenance,support_contact,notes,status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (mgmt_ip, vendor,location, installation_date,warranty_expiration,last_maintenance,support_contact,notes,status))
     mysql.connection.commit()
     cur.close()
 
@@ -79,11 +79,33 @@ def get_device_by_ip_database(mysql, mgmt_ip):
     cur.close()
     return device
 
-def update_device_informations(mysql, mgmt_ip, device_informations):
+def update_device_informations(mysql, mgmt_ip, vendor,location, installation_date, warranty_expiration, last_maintenance, support_contact,notes,status):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE devices SET device_name = %s,  os_version = %s WHERE mgmt_ip = %s",(device_informations['hostname'], device_informations['os_version'], mgmt_ip))
+    cur.execute("""UPDATE devices SET 
+                vendor = %s,
+                location = %s,
+                installation_date = %s,
+                warranty_expiration = %s,
+                last_maintenance = %s,
+                support_contact = %s,
+                notes = %s,
+                status = %s
+
+                WHERE mgmt_ip = %s""",
+
+                (vendor,location, installation_date, warranty_expiration, 
+                 last_maintenance,support_contact,notes,status,mgmt_ip))
     mysql.connection.commit()
     cur.close()
+
+
+def update_device_informations_from_device(mysql, mgmt_ip, device_informations):
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE devices SET device_name = %s, os_version = %s, serial_number = %s, model = %s  WHERE mgmt_ip = %s",
+                (device_informations['hostname'], device_informations['os_version'], device_informations['serial_number'], device_informations['model'], mgmt_ip))
+    mysql.connection.commit()
+    cur.close()
+
 
 ### Connections DB ###
 

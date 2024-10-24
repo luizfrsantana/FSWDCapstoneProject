@@ -5,7 +5,7 @@
 
 .devicepage .addpanel {
     border: 1px solid;
-    height: 60px;
+    height: 100px;
     background-color:darkgray;
 }
 
@@ -54,4 +54,21 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 150px; 
+}
+
+
+.devicepage .status-up {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+.devicepage .status-down {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
 }

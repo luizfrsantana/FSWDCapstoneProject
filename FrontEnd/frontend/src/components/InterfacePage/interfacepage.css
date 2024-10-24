@@ -1,6 +1,74 @@
-.data-table-cell {
+.interfacepage {
+    max-width: 100%;
+    height: fit-content;
+}
+
+.interfacepage .addpanel {
+    border: 1px solid;
+    height: 100px;
+    background-color:darkgray;
+}
+
+.interfacepage .addpaneldiv{
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.interfacepage .addpanelinput {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 200px;
+    height: 25px;
+}
+
+.interfacepage .syncBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 200px;
+    background-color: rgb(rgb(214, 241, 91), green, blue);
+}
+
+.interfacepage .updBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 60px;
+    background-color: rgb(rgb(214, 241, 91), green, blue);
+}
+
+.interfacepage .inputSearch {
+    margin-top: 5px;
+    width: 300px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+.interfacepage .data-table-cell {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 150px;
+    max-width: 150px; 
+}
+
+
+.interfacepage .status-up {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+.interfacepage .status-down {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
 }

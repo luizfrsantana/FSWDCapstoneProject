@@ -246,7 +246,10 @@ def update_interfaces():
     devices = get_devices(mysql)
     
     for device in devices:
-        device_id, device_name, mgmt_ip, vendor, os_version  = device
+        device_id = device.get('id')
+        device_name = device.get('device_name')
+        mgmt_ip = device.get('mgmt_ip')
+        vendor = device.get('vendor')
         
         if not is_device_reachable(mgmt_ip):
             all_interfaces.append({

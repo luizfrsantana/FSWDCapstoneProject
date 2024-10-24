@@ -47,7 +47,7 @@ CREATE TABLE devices (
     status ENUM('UP', 'DOWN') DEFAULT 'UP',
     installation_date DATE,
     warranty_expiration DATE, 
-    last_maintenance TIMESTAMP,
+    last_maintenance DATE,
     support_contact VARCHAR(100),
     notes TEXT,         
     UNIQUE (mgmt_ip)                         

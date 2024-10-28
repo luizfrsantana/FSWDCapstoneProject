@@ -63,13 +63,15 @@ CREATE TABLE interfaces (
     ip VARCHAR(255),
     description VARCHAR(50),
     device_id INT,
-    status ENUM('up', 'down', 'maintenance') DEFAULT 'down',
-    speed VARCHAR(20),
-    vlan INT,
-    last_active TIMESTAMP,
+    vlan VARCHAR(50),
+    last_down VARCHAR(255),
+    last_up VARCHAR(255),
+    physical_status VARCHAR(255),
+    protocol_status VARCHAR(255),
     CONSTRAINT fk_device_id
         FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE
 );
+
 ==========
 
 CREATE TABLE connections (

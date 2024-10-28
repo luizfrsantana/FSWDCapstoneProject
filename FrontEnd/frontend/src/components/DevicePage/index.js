@@ -143,7 +143,17 @@ const DevicePage = () => {
     if (selectedRows && selectedRows.selectedRows.length > 0) { 
       const selectedDevice = selectedRows.selectedRows[0];
       setSelectedDevice(selectedDevice);
-      fillInputbox(selectedDevice)
+      fillInputbox(selectedDevice);
+    }else {
+      setSelectedDevice(null);
+      fillInputbox({mgmt_ip:"",
+        vendor:"",
+        location:"",
+        installation_date:"",
+        warranty_expiration:"",
+        last_maintenance:"",
+        support_contact:"",
+        notes:""})
     };
 
     
@@ -361,9 +371,9 @@ const DevicePage = () => {
             <br />
           </div>
 
-          <button className="addBtnDevice" onClick={handleAddBtnDevice}>Add</button>
-          <button className="delBtnDevice" onClick={handleDelBtnDevice}>Delete</button>
-          <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>
+          {!selectedDevice && <button className="addBtnDevice" onClick={handleAddBtnDevice}>Add</button>}
+          {selectedDevice && <button className="delBtnDevice" onClick={handleDelBtnDevice}>Delete</button>}
+          {selectedDevice && <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>}
         </div>
         <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchdevice" id="inputsearchdevice" placeholder="Search Devices By Name or Vendor..." />
         <DataTable 

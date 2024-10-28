@@ -43,34 +43,34 @@ const InterfacePage = () => {
       cell: row => <div title={row.ip}>{row.ip}</div>,
     },
     {
-      name: "Status",
-      selector: row => row.status,
-      cell: row => (
-        <div className={getStatus(row.status)} title={row.status}>
-          {row.status}
-        </div>
-    ),
-    },
-    {
-      name: "Speed",
-      selector: row => row.speed,
-      cell: row => <div title={row.speed}>{row.speed}</div>,
-    },
-    {
       name: "Vlan",
       selector: row => row.vlan,
       cell: row => <div title={row.vlan}>{row.vlan}</div>,
     },
     {
-      name: "Last Active",
-      selector: row => row.last_active,
-      cell: row => <div title={row.last_active}>{row.last_active}</div>,
+      name: "Last Up",
+      selector: row => row.last_up,
+      cell: row => <div title={row.last_up}>{row.last_up}</div>,
+    },
+    {
+      name: "Last Down",
+      selector: row => row.last_down,
+      cell: row => <div title={row.last_down}>{row.last_down}</div>,
+    },
+    {
+      name: "Physical Status",
+      selector: row => row.physical_status,
+      cell: row => <div title={row.physical_status}>{row.physical_status}</div>,
+    },
+    {
+      name: "Protocol Status",
+      selector: row => row.protocol_status,
+      cell: row => <div className={getStatus(row.protocol_status)} title={row.protocol_status}>{row.protocol_status}</div>,
     },
   ];
   
   
-  
-  const getAllDevices = async () => {
+  const getAllInterfaces = async () => {
     try {
       const response = await fetch("http://192.168.56.107:5000/api/interface");
       if (!response.ok) {
@@ -90,18 +90,22 @@ const InterfacePage = () => {
   }
 
   useEffect(()=>{
-    getAllDevices();
+    getAllInterfaces();
   },[])
 
   const handleUpdBtnDevice = async () => {
     const newInterfaceValues = {
       ip,
       description,
+      device_id: selectedInterface.device_id,
+      id: selectedInterface.id,
+      interface_name: selectedInterface.interface_name,
     };
+    console.log(newInterfaceValues)
   
     try {
-      const response = await fetch(`http://192.168.56.107:5000/api/device`, {
-        method: "PATCH",
+      const response = await fetch(`http://192.168.56.107:5000/api/interface/update`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -112,7 +116,7 @@ const InterfacePage = () => {
         throw new Error('Network response was not ok');
       }
       
-      getAllDevices();
+      handleSyncBtnDevice();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -132,7 +136,7 @@ const InterfacePage = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      getAllDevices();
+      getAllInterfaces();
 
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -144,6 +148,9 @@ const InterfacePage = () => {
       const selectedInterface = selectedRows.selectedRows[0];
       setSelectedInterface(selectedInterface);
       fillInputbox(selectedInterface)
+    } else {
+      setSelectedInterface(null)
+      fillInputbox({description: "",ip: ""})
     };
 
     
@@ -160,6 +167,7 @@ const InterfacePage = () => {
                     id="description"
                     value={description}
                     onChange={handlerInputdescription}
+                    disabled={!selectedInterface}
             />  
             <br />
           </div>
@@ -170,14 +178,15 @@ const InterfacePage = () => {
                     name="ip" 
                     id="ip" 
                     value={ip} 
-                    onChange={handlerInputIp} 
+                    onChange={handlerInputIp}
+                    disabled={!selectedInterface} 
             />
           </div>
 
-          <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>
-          <button className="syncBtnDevice" onClick={handleSyncBtnDevice}>Sync Devices' Interface</button>
+          {selectedInterface && <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>}
+          {!selectedInterface && <button className="syncBtnDevice" onClick={handleSyncBtnDevice}>Sync Devices' Interface</button>}
         </div>
-        <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Name or IP..." />
+        <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Description or IP..." />
         <DataTable 
           columns={columns} 
           data={filteredInterfaces} 

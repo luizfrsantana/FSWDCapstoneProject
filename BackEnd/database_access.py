@@ -51,6 +51,15 @@ def update_user_field_by_id(mysql, username, role, email, phoneNumber, status, f
 
 ### Devices DB ###
 
+def get_device_access_information_db_by_id(mysql, device_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT mgmt_ip, vendor FROM devices WHERE id=%s;", (device_id,) )
+    columns = [col[0] for col in cur.description]
+    devices = cur.fetchall()
+    cur.close()
+    result = [dict(zip(columns, device)) for device in devices]
+    return result
+
 def delete_device_to_database(mysql, id):
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM devices WHERE id = %s;", (id,))
@@ -164,13 +173,16 @@ def save_interfaces_to_db(mysql, device_id, interfaces, is_juniper=False):
                 cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description) VALUES (%s, %s, %s, %s)",(device_id, interface_name, ip_address, description))
     else:
         for interface in interfaces:
-
-            Is_interface_setUp = any(interface['interface_name'] in tupla and device_id in tupla for tupla in database_interfaces)
+            Is_interface_setUp = any(interface in tupla and device_id in tupla for tupla in database_interfaces)
 
             if Is_interface_setUp:
                 cur.execute("UPDATE interfaces SET ip = %s,  description = %s WHERE device_id = %s AND interface_name = %s",(interface['ip_address'], interface['description'], device_id, interface['interface_name']))
             else:
-                cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description) VALUES (%s, %s, %s, %s)", (device_id, interface['interface_name'], interface['ip_address'], interface['description']))
+                cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description,vlan,last_down,last_up,physical_status,protocol_status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                             (device_id, interface, interfaces[interface]["ip_address"], interfaces[interface]["description"],
+                              interfaces[interface]["vlan"],interfaces[interface]["last_down"],
+                              interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
+                              interfaces[interface]["protocol_status"],))
 
 
     mysql.connection.commit()
@@ -185,11 +197,13 @@ def get_interfaces(mysql):
                     interfaces.interface_name, 
                     interfaces.ip, 
                     interfaces.description, 
+                    interfaces.device_id,
                     devices.device_name AS device_name, 
-                    interfaces.status, 
-                    interfaces.speed, 
+                    interfaces.last_down, 
+                    interfaces.last_up, 
                     interfaces.vlan, 
-                    interfaces.last_active
+                    interfaces.physical_status,
+                    interfaces.protocol_status
                     FROM interfaces
                     JOIN devices ON interfaces.device_id = devices.id;
     """)

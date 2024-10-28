@@ -1,5 +1,10 @@
 from netmiko import ConnectHandler
 import re
+import ipaddress
+
+def convert_to_cidr(ip, mask):
+    ip_interface = ipaddress.IPv4Interface(f"{ip}/{mask}")
+    return str(ip_interface.with_prefixlen)
 
 def get_cisco_interfaces(host, username='admin', password='admin123'):
 
@@ -20,11 +25,14 @@ def get_cisco_interfaces(host, username='admin', password='admin123'):
             interface_name = match.group(1)
             description = match.group(2) if match.group(2) else "No description"
             ip_address = match.group(3) if match.group(3) else "No IP"
+            if ip_address != "No IP":
+                ip, mask = str(ip_address).split()
+                ip_address = convert_to_cidr(ip, mask)
             
             interfaces.append({
                 'interface_name': interface_name,
                 'description': description,
-                'ip_address': ip_address
+                'ip_address': ip_address,
             })
 
         net_connect.disconnect()

@@ -1,4 +1,11 @@
 from netmiko import ConnectHandler
+import ipaddress
+
+def convert_from_cidr(cidr):
+    network = ipaddress.IPv4Network(cidr, strict=False)
+    host_ip = str(cidr).split('/')[0]
+    mask = str(network.netmask)
+    return f'{host_ip} {mask}'
 
 def configure_cisco(host, description, interface, ip):
     try:
@@ -13,7 +20,7 @@ def configure_cisco(host, description, interface, ip):
         config_commands = [
             f'interface {interface}',
             f'description {description}',
-            f'ip address {ip} 255.255.255.0',
+            f'ip address {convert_from_cidr(ip)}',
             'no shutdown',
         ]
 

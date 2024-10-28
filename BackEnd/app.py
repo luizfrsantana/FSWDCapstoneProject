@@ -6,10 +6,12 @@ from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash
 from get_cisco_interfaces import get_cisco_interfaces
 from get_cisco_informations import get_cisco_informations
+from get_cisco_interfaces_status import get_cisco_interfaces_status
 from get_juniper_interfaces import get_juniper_interfaces
 from get_juniper_informations import get_juniper_informations
 from device_reachable import is_device_reachable
 from database_access import *
+ 
 
 app = Flask(__name__)
 CORS(app)
@@ -262,7 +264,38 @@ def update_interfaces():
             continue 
         
         if vendor.lower() == 'cisco':
-            interfaces = get_cisco_interfaces(mgmt_ip)
+            dict1 = get_cisco_interfaces(mgmt_ip)
+            dict2 = get_cisco_interfaces_status(mgmt_ip)
+
+            interfaces_partial_details = {entry['interface_name']: entry for entry in dict1}
+            interfaces_all_details = {}
+
+            for interface_name, details in dict2.items():
+                description = interfaces_partial_details.get(interface_name, {}).get('description', 'No description')
+                ip_address = interfaces_partial_details.get(interface_name, {}).get('ip_address', 'No IP')
+
+                interfaces_all_details[interface_name] = {
+                    "last_down": details.get("last_down"),
+                    "last_up": details.get("last_up"),
+                    "physical_status": details.get("physical_status"),
+                    "protocol_status": details.get("protocol_status"),
+                    "vlan": details.get("vlan"),
+                    "description": description,
+                    "ip_address": ip_address
+                }
+
+            for interface_name, details in interfaces_partial_details.items():
+                if interface_name not in interfaces_all_details:
+                    interfaces_all_details[interface_name] = {
+                        "last_down": None,
+                        "last_up": None,
+                        "physical_status": "Unknown",
+                        "protocol_status": "Unknown",
+                        "vlan": "No VLAN",
+                        "description": details.get("description", "No description"),
+                    }
+
+            print(interfaces_all_details)
             is_juniper = False
         elif vendor.lower() == 'juniper':
             interfaces = get_juniper_interfaces(mgmt_ip)
@@ -277,7 +310,7 @@ def update_interfaces():
             })
             continue 
 
-        save_interfaces_to_db(mysql, device_id, interfaces, is_juniper)
+        save_interfaces_to_db(mysql, device_id, interfaces_all_details, is_juniper)
 
         all_interfaces.append({
             'id': device_id,
@@ -323,6 +356,39 @@ def configure_cisco_device():
     
     result = configure_cisco(host, description, interface, ip)
     return jsonify(result)
+
+@app.route('/api/interface/update', methods=['POST'])
+def set_interface_update():
+    data = request.json
+    device_id = data.get('device_id')
+    description = data.get('description')
+    interface = data.get('interface_name')
+    ip = data.get('ip')
+
+    deviceInformation = get_device_access_information_db_by_id(mysql, device_id)
+    host = deviceInformation[0]["mgmt_ip"]
+    vendor = deviceInformation[0]["vendor"]
+
+
+    
+    if not is_device_reachable(host):
+        return jsonify({"status": "error", "message": f"Device {host} is not reachable"}), 500
+
+    if not all([host,description,interface,ip]):
+        return jsonify({"status":"error", "message": "Missing parameters"}), 400
+    
+    if vendor == "cisco":
+        result = configure_cisco(host, description, interface, ip)
+    elif vendor == "juniper":
+        result = configure_juniper(host, description, interface, ip)
+        
+    return jsonify(result)
+
+@app.route('/api/interface/status', methods=['GET'])
+def set_interface_status():
+    host = request.args.get('host')
+    return jsonify(get_cisco_interfaces_status(host))
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

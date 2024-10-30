@@ -4,7 +4,7 @@ import "./interfacepage.css"
 import DataTable from  "react-data-table-component";
 
 const getStatus = (status) => {
-  return status.toLowerCase() === 'up' ? 'status-up' : 'status-down';
+  return status && status.toLowerCase() === 'up' ? 'status-up' : 'status-down';
 };
 
 const InterfacePage = () => {

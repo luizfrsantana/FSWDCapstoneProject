@@ -1,0 +1,57 @@
+.connectionspage {
+    max-width: 100%;
+    height: fit-content;
+}
+
+.connectionspage .addpanel {
+    border: 1px solid;
+    height: 100px;
+    background-color:darkgray;
+}
+
+.connectionspage .addpaneldiv{
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.connectionspage .addpanelinput {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 200px;
+    height: 25px;
+}
+
+.connectionspage .syncBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 200px;
+    background-color: rgb(rgb(214, 241, 91), green, blue);
+}
+
+.connectionspage .updBtnDevice {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 60px;
+    background-color: rgb(rgb(214, 241, 91), green, blue);
+}
+
+.connectionspage .inputSearch {
+    margin-top: 5px;
+    width: 350px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: aliceblue;
+}
+
+.connectionspage .data-table-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px; 
+}

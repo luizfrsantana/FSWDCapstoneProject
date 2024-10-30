@@ -136,6 +136,7 @@ const DevicePage = () => {
 
   const handleSearch = (e) => {
     const filteredDevices = devices.filter(row=>row.device_name.toLowerCase().includes(e.target.value.toLowerCase()) || row.vendor.toLowerCase().includes(e.target.value.toLowerCase()))
+    console.log(filteredDevices)
     setfilteredDevices(filteredDevices)
   }
 
@@ -182,9 +183,6 @@ const DevicePage = () => {
       support_contact,
       notes,
     };
-
-    console.log(vendor)
-    console.log(mgmt_ip)
 
     try {
       const response = await fetch(`http://192.168.56.107:5000/api/device`, 

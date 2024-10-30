@@ -164,9 +164,9 @@ def handle_device():
         vendor = data.get('vendor')
 
         location = data.get('location')
-        installation_date = None if data.get('installation_date') == "" else data.get('installation_date')
-        warranty_expiration = None if data.get('warranty_expiration') == "" else data.get('warranty_expiration')
-        last_maintenance = None if data.get('last_maintenance') == "" else data.get('last_maintenance')
+        installation_date = None if data.get('installation_date') == "NaN-NaN-NaN" else data.get('installation_date')
+        warranty_expiration = None if data.get('warranty_expiration') == "NaN-NaN-NaN" else data.get('warranty_expiration')
+        last_maintenance = None if data.get('last_maintenance') == "NaN-NaN-NaN" else data.get('last_maintenance')
         support_contact = data.get('support_contact')
         notes = data.get('notes')
 
@@ -244,7 +244,7 @@ def getAllinterfaces():
 
 @app.route('/api/update_interfaces', methods=['GET'])
 def update_interfaces():
-    all_interfaces = []
+    interfaces_all_details = {}
     devices = get_devices(mysql)
     
     for device in devices:
@@ -253,22 +253,12 @@ def update_interfaces():
         mgmt_ip = device.get('mgmt_ip')
         vendor = device.get('vendor')
         
-        if not is_device_reachable(mgmt_ip):
-            all_interfaces.append({
-                'id': device_id,
-                'device_name': device_name,
-                'mgmt_ip': mgmt_ip,
-                'vendor': vendor,
-                'error': f"Device {mgmt_ip} is not reachable"
-            })
-            continue 
-        
         if vendor.lower() == 'cisco':
             dict1 = get_cisco_interfaces(mgmt_ip)
             dict2 = get_cisco_interfaces_status(mgmt_ip)
 
             interfaces_partial_details = {entry['interface_name']: entry for entry in dict1}
-            interfaces_all_details = {}
+            
 
             for interface_name, details in dict2.items():
                 description = interfaces_partial_details.get(interface_name, {}).get('description', 'No description')
@@ -295,32 +285,15 @@ def update_interfaces():
                         "description": details.get("description", "No description"),
                     }
 
-            print(interfaces_all_details)
             is_juniper = False
+
         elif vendor.lower() == 'juniper':
-            interfaces = get_juniper_interfaces(mgmt_ip)
+            interfaces_all_details = get_juniper_interfaces(mgmt_ip)
             is_juniper = True
-        else:
-            all_interfaces.append({
-                'id': device_id,
-                'device_name': device_name,
-                'mgmt_ip': mgmt_ip,
-                'vendor': vendor,
-                'error': f"Vendor {vendor} not supported"
-            })
-            continue 
 
         save_interfaces_to_db(mysql, device_id, interfaces_all_details, is_juniper)
 
-        all_interfaces.append({
-            'id': device_id,
-            'device_name': device_name,
-            'mgmt_ip': mgmt_ip,
-            'vendor': vendor,
-            'interfaces': interfaces
-        })
-
-    return jsonify(all_interfaces)
+    return jsonify(interfaces_all_details)
 
 
 @app.route('/configure/juniper', methods=['POST'])

@@ -3,10 +3,10 @@ import re
 
 def get_cisco_interfaces_status(host, username='admin', password='admin123'):
 
-    regexVlan = r"interface (\S+)(?:\s+encapsulation dot1Q (\d+))?"
+    regexVlan = r"interface (\S+)\n(?:\s*description .*\n)?\s*encapsulation dot1Q (\d+)"
     regexStatus = r"(\S+) is (administratively )?(\S+), line protocol is (\S+)"
     regexLastActive = r"\*.*?%LINK-\d+-\w+: Interface (\S+), changed state to (up|down|administratively down)"
-    regexTimestamp = r"\*(\S+ \S+ \S+):"
+    regexTimestamp = r"\*(\w+ \d+ \d{2}:\d{2}:\d{2}\.\d+):"
 
     patternVlan = re.compile(regexVlan) 
     patternStatus = re.compile(regexStatus)
@@ -28,25 +28,28 @@ def get_cisco_interfaces_status(host, username='admin', password='admin123'):
         show_run_output = net_connect.send_command("show run")
         show_log_output = net_connect.send_command("show logging")
         
-        for match in patternLastActive.findall(show_log_output):
-            interface, state = match
+        for line in show_log_output.splitlines():
+            timestamp_match = patternTimestamp.search(line)
+            last_active_match = patternLastActive.search(line)
 
-            timestamp_match = patternTimestamp.search(show_log_output)
-            timestamp = timestamp_match.group(1).strip() if timestamp_match else "Unknown"
-            
-            if interface not in interfaces:
-                interfaces[interface] = {
-                    "last_up": None,
-                    "last_down": None,
-                    "physical_status": None,
-                    "protocol_status": None,
-                    "vlan": "No VLAN"
-                }
+            if timestamp_match and last_active_match:
+                timestamp = timestamp_match.group(1)
+                interface, state = last_active_match.groups()
 
-            if state == "up":
-                interfaces[interface]["last_up"] = timestamp
-            elif state == "down" or state == "administratively down":
-                interfaces[interface]["last_down"] = timestamp 
+                if interface not in interfaces:
+                    interfaces[interface] = {
+                        "last_up": None,
+                        "last_down": None,
+                        "physical_status": None,
+                        "protocol_status": None,
+                        "vlan": "No VLAN"
+                    }
+
+                # Update last up/down times based on state
+                if state == "up":
+                    interfaces[interface]["last_up"] = timestamp
+                elif state in ["down", "administratively down"]:
+                    interfaces[interface]["last_down"] = timestamp
 
         for match in patternStatus.findall(show_interfaces_output):
             interface = match[0]

@@ -8,7 +8,7 @@ def convert_to_cidr(ip, mask):
 
 def get_cisco_interfaces(host, username='admin', password='admin123'):
 
-    pattern = re.compile(r'^interface (\S+)\n(?: description (.+))?.*\n(?: ip address (\S+ \S+))?', re.MULTILINE)
+    pattern = re.compile(r'^interface (\S+)(?:\n\s*description (.+))?(?:[\s\S]*?ip address (\S+ \S+))?', re.MULTILINE)
     interfaces = []
 
     try:

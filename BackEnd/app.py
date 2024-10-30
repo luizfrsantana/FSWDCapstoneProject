@@ -27,24 +27,22 @@ mysql = MySQL(app)
 
 ##### CONNECTIONS ROUTES #####
 
-@app.route('/api/connections', methods=['GET'])
-def get_connections():
-    result = get_connections_db(mysql)
-    return jsonify(result)
+@app.route('/api/connections', methods=['GET','POST','DELETE'])
+def handle_connections():
+    
+    if request.method == 'GET':
+        result = get_connections_db(mysql)
+        return jsonify(result)
+    elif request.method == 'POST':
+        connection = request.json
+        action_connection_to_db(mysql,'POST', connection)
+        return "Connection added!"
 
-@app.route('/add_connection', methods=['POST'])
-def add_connection():
-    id_interface_a = request.json['id_interface_a']
-    id_interface_z = request.json['id_interface_z']
-    action_connection_to_db(mysql,'POST', id_interface_a,id_interface_z)
-    return "Connection added!"
+    elif request.method == 'DELETE':
+        connection = request.json
+        action_connection_to_db(mysql,'DELETE', connection)
+        return "Connection deleted!"
 
-@app.route('/delete_connection', methods=['DELETE'])
-def delete_connection():
-    id_interface_a = request.json['id_interface_a']
-    id_interface_z = request.json['id_interface_z']
-    action_connection_to_db(mysql,'DELETE', id_interface_a,id_interface_z)
-    return "Connection deleted!"
 
 ##### USER ROUTES #####
 

@@ -126,10 +126,20 @@ def get_connections_db(mysql):
             d_a.device_name AS device_name_a,
             i_a.interface_name AS interface_name_a,
             i_a.ip AS ip_a,
+            i_a.id AS interfaceId_a,
             
             i_z.ip AS ip_z,
             i_z.interface_name AS interface_name_z,
-            d_z.device_name AS device_name_z
+            d_z.device_name AS device_name_z,
+            i_z.id AS interfaceId_z,
+                
+            c.connection_type,
+            c.status,
+            c.speed,
+            c.created_at,
+            c.last_updated,
+            c.description   
+            
             
         FROM connections c
         JOIN interfaces i_a ON c.id_interface_a = i_a.id
@@ -144,12 +154,17 @@ def get_connections_db(mysql):
     result = [dict(zip(columns, connection)) for connection in connections]
     return result
 
-def action_connection_to_db(mysql, action, id_connection_a, id_connection_z):
+def action_connection_to_db(mysql, action, connection):
     cur = mysql.connection.cursor()
     if action == 'DELETE':
-        cur.execute("DELETE FROM connections WHERE id_interface_a = %s AND id_interface_z = %s",(id_connection_a, id_connection_z))
+        cur.execute("DELETE FROM connections WHERE id_interface_a = %s AND id_interface_z = %s",(connection["id_interface_a"], connection["id_interface_z"]))
     elif action == 'POST':
-        cur.execute("INSERT INTO connections (id_interface_a, id_interface_z) VALUES (%s, %s)",(id_connection_a, id_connection_z))
+        print(connection["connection_type"])
+        cur.execute("INSERT INTO connections (id_interface_a,id_interface_z,connection_type,status,speed,description) VALUES (%s,%s,%s,%s,%s,%s)",
+                    (connection["id_interface_a"], connection["id_interface_z"],
+                     connection["connection_type"],connection["status"],
+                     connection["speed"],connection["description"]
+                     ))
     mysql.connection.commit()
     cur.close()
 
@@ -160,43 +175,25 @@ def save_interfaces_to_db(mysql, device_id, interfaces, is_juniper=False):
     cur.execute("SELECT interface_name, device_id  FROM interfaces")
     database_interfaces = cur.fetchall()
     
-    if is_juniper:
-        for interface, interface_data in interfaces.items():
-            ip_address = interface_data.get('ip_address', 'No IP')
-            description = interface_data.get('description', 'No description')
 
-            Is_interface_setUp = any(interface in tupla and device_id in tupla for tupla in database_interfaces)
-            
-            if Is_interface_setUp:
-                                cur.execute("UPDATE interfaces SET ip = %s,  description = %s, vlan = %s, last_down = %s, last_up = %s, physical_status = %s, protocol_status = %s  WHERE device_id = %s AND interface_name = %s",
-                            (interfaces[interface]["ip_address"], interfaces[interface]["description"], 
-                             interfaces[interface]["vlan"],interfaces[interface]["last_down"],
-                             interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
-                             interfaces[interface]["protocol_status"],
-                             device_id, interface,
-                             ))
-            else:   
-                cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description) VALUES (%s, %s, %s, %s)",(device_id, interface_name, ip_address, description))
-    else:
-        for interface in interfaces:
-            Is_interface_setUp = any(interface in tupla and device_id in tupla for tupla in database_interfaces)
+    for interface in interfaces:
+        Is_interface_setUp = any(interface in tupla and device_id in tupla for tupla in database_interfaces)
 
-            if Is_interface_setUp:
-                cur.execute("UPDATE interfaces SET ip = %s,  description = %s, vlan = %s, last_down = %s, last_up = %s, physical_status = %s, protocol_status = %s  WHERE device_id = %s AND interface_name = %s",
-                            (interfaces[interface]["ip_address"], interfaces[interface]["description"], 
-                             interfaces[interface]["vlan"],interfaces[interface]["last_down"],
-                             interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
-                             interfaces[interface]["protocol_status"],
-                             device_id, interface,
-                             ))
-            else:
-                cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description,vlan,last_down,last_up,physical_status,protocol_status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                             (device_id, interface, interfaces[interface]["ip_address"], interfaces[interface]["description"],
-                              interfaces[interface]["vlan"],interfaces[interface]["last_down"],
-                              interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
-                              interfaces[interface]["protocol_status"],
-                              ))
-
+        if Is_interface_setUp:
+            cur.execute("UPDATE interfaces SET ip = %s,  description = %s, vlan = %s, last_down = %s, last_up = %s, physical_status = %s, protocol_status = %s  WHERE device_id = %s AND interface_name = %s",
+                (interfaces[interface]["ip_address"], interfaces[interface]["description"], 
+                interfaces[interface]["vlan"],interfaces[interface]["last_down"],
+                interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
+                interfaces[interface]["protocol_status"],
+                device_id, interface,
+                ))
+        else:
+            cur.execute("INSERT INTO interfaces (device_id, interface_name, ip, description,vlan,last_down,last_up,physical_status,protocol_status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                (device_id, interface, interfaces[interface]["ip_address"], interfaces[interface]["description"],
+                interfaces[interface]["vlan"],interfaces[interface]["last_down"],
+                interfaces[interface]["last_up"],interfaces[interface]["physical_status"],
+                interfaces[interface]["protocol_status"],
+                ))
 
     mysql.connection.commit()
     cur.close()

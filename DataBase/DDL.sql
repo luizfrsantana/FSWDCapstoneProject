@@ -87,5 +87,6 @@ CREATE TABLE connections (
     CONSTRAINT fk_interface_a
         FOREIGN KEY (id_interface_a) REFERENCES interfaces(id) ON DELETE CASCADE,
     CONSTRAINT fk_interface_z
-        FOREIGN KEY (id_interface_z) REFERENCES interfaces(id) ON DELETE CASCADE 
+        FOREIGN KEY (id_interface_z) REFERENCES interfaces(id) ON DELETE CASCADE,
+    CONSTRAINT unique_connection UNIQUE (id_interface_a, id_interface_z)
 );

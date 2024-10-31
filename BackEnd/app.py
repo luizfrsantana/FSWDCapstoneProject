@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from datetime import timedelta
 from flask_cors import CORS
 from set_juniper_interfaces_config import configure_juniper
 from set_cisco_interfaces_config import configure_cisco
 from flask_mysqldb import MySQL
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 from get_cisco_interfaces import get_cisco_interfaces
 from get_cisco_informations import get_cisco_informations
 from get_cisco_interfaces_status import get_cisco_interfaces_status
@@ -16,6 +18,10 @@ from database_access import *
 app = Flask(__name__)
 CORS(app)
 
+app.config["JWT_SECRET_KEY"] = "123!@#$"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+jwt = JWTManager(app)
+
 ###### Database access parameters ######
 app.config['MYSQL_HOST'] = '172.17.0.2'
 app.config['MYSQL_PORT'] = 3306
@@ -25,11 +31,30 @@ app.config['MYSQL_DB'] = 'mydatabase'
 
 mysql = MySQL(app)
 
+### JWT ROUTES ####
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    username = request.json.get("username")
+    password = request.json.get("password")
+
+    user = get_user_by_username(mysql,username)
+
+    if not user:
+        return jsonify({"msg": "User not found"}), 404
+        
+    stored_password_hash = user["password"]
+
+    if check_password_hash(stored_password_hash, password):
+        access_token = create_access_token(identity=username) 
+        return jsonify(token=access_token), 200
+    else:
+        return jsonify({"msg": "Incorrect password"}), 401
+
 ##### CONNECTIONS ROUTES #####
 
 @app.route('/api/connections', methods=['GET','POST','DELETE'])
 def handle_connections():
-    
     if request.method == 'GET':
         result = get_connections_db(mysql)
         return jsonify(result)
@@ -100,6 +125,7 @@ def handle_user():
             return f"User with ID {user_id} does not exist!", 404
         
         username = request.json.get('username')
+        password = request.json.get('password')
         fullName = request.json.get('fullname')
         profile_picture = request.json.get('profile_picture')
         role = request.json.get('role')
@@ -107,11 +133,13 @@ def handle_user():
         phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
+        hashed_password = generate_password_hash(password)
+
         if not all([username, role, email]):
             return "Missing required fields!", 400
 
         try:
-            update_user_field_by_id(mysql, username, role, email, phoneNumber, status, fullName, profile_picture, user_id)
+            update_user_field_by_id(mysql, username,hashed_password, role, email, phoneNumber, status, fullName, profile_picture, user_id)
             return "User added!", 201 
         except Exception as e:
             return f"Error adding user: {str(e)}", 500

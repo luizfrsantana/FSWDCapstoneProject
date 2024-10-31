@@ -8,6 +8,14 @@ def user_exists(mysql, user_id):
     cur.close()
     return result[0] == 1
 
+def get_user_by_username(mysql, username):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+    columns = [col[0] for col in cur.description]
+    user = cur.fetchone()
+    cur.close()
+    return dict(zip(columns, user)) if user else None
+
 
 def add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture):
     cur = mysql.connection.cursor()
@@ -38,13 +46,13 @@ def get_users(mysql):
 
     return result
 
-def update_user_field_by_id(mysql, username, role, email, phoneNumber, status, fullName, profile_picture, user_id):
+def update_user_field_by_id(mysql, username,password, role, email, phoneNumber, status, fullName, profile_picture, user_id):
     cur = mysql.connection.cursor()
     cur.execute("""
     UPDATE users 
-    SET username = %s, full_name = %s, email = %s, phone_number = %s, status = %s, role = %s, profile_picture = %s
+    SET username = %s, password = %s, full_name = %s, email = %s, phone_number = %s, status = %s, role = %s, profile_picture = %s
     WHERE id = %s
-    """, (username, fullName, email, phoneNumber, status, role, profile_picture, user_id, ))
+    """, (username, password, fullName, email, phoneNumber, status, role, profile_picture, user_id, ))
 
     mysql.connection.commit()
     cur.close()

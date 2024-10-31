@@ -11,7 +11,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 ## Features
 
 - **User Authentication**: Users must register and log in to access the portal. Permissions will be applied to restrict access to authorized devices only.
-- **User Activity Log**: The portal will log all user actions to facilitate issue tracking and auditing.
+- **User Activity Log**: The portal will log all user actions to facilitate issue tracking and auditing --> TBD
 - **Device CRUD Operations**: Users will be able to add, update, and remove network devices through a dedicated interface.
 - **Device Connections**: The portal allows users to create and manage connections between network devices.
 - **Access Control**: Validation ensures that users only see information and devices they have permission to manage.

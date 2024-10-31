@@ -53,11 +53,11 @@ def handle_user():
     if request.method == 'POST':
         username = request.json.get('username')
         password = request.json.get('password')
-        fullName = request.json.get('fullName')
+        fullName = request.json.get('fullname')
         profile_picture = request.json.get('profile_picture')
         role = request.json.get('role')
         email = request.json.get('email')
-        phoneNumber = request.json.get('phoneNumber')
+        phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
         if not all([username, password, role, email]):
@@ -100,11 +100,11 @@ def handle_user():
             return f"User with ID {user_id} does not exist!", 404
         
         username = request.json.get('username')
-        fullName = request.json.get('fullName')
+        fullName = request.json.get('fullname')
         profile_picture = request.json.get('profile_picture')
         role = request.json.get('role')
         email = request.json.get('email')
-        phoneNumber = request.json.get('phoneNumber')
+        phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
         if not all([username, role, email]):

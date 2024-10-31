@@ -97,6 +97,7 @@ const handleUpdBtnUser = async () => {
   if (!selectedUse) return;
   const newUseValues = {
     username,
+    password,
     fullname,
     email,
     phonenumber,

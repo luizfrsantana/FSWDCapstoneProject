@@ -7,6 +7,8 @@ import Home from "./components/Home";
 import DevicePage from "./components/DevicePage";
 import InterfacePage from "./components/InterfacePage";
 import ConnectionPage from "./components/ConnectionPage";
+import LoginPage from "./components/LoginPage";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   return (
@@ -16,11 +18,14 @@ export default function App() {
       <div className="main-content">
         <Banner />
         <Routes>
-            <Route path="/" element={<Home />}  />
-            <Route path="/users" element={<UserPage />}  />
-            <Route path="/devices" element={<DevicePage />}  />
-            <Route path="/interfaces" element={<InterfacePage />}  />
-            <Route path="/connections" element={<ConnectionPage />}  />
+            <Route path="/" element={<LoginPage />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/home" element={<Home />}  />
+              <Route path="/users" element={<UserPage />}  />
+              <Route path="/devices" element={<DevicePage />}  />
+              <Route path="/interfaces" element={<InterfacePage />}  />
+              <Route path="/connections" element={<ConnectionPage />}  />
+            </Route>
         </Routes>
       </div>
 

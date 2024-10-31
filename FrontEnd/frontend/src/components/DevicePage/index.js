@@ -1,5 +1,6 @@
 import {useEffect, useState, useCallback} from 'react';
 import "./devicepage.css"
+import { jwtDecode } from "jwt-decode";
 
 import DataTable from  "react-data-table-component";
 
@@ -16,6 +17,10 @@ const getStatus = (status) => {
 };
 
 const DevicePage = () => {
+
+  const token = localStorage.getItem("authToken");
+  const userData = token ? jwtDecode(token) : null;
+  const userRole = userData?.sub?.role;
 
   const columns = [
     {
@@ -270,7 +275,7 @@ const DevicePage = () => {
 
   return (
       <div className='devicepage'>
-        <div className="addpanel">
+      {(userRole === "Admin" || userRole === "full-access")  && <div className="addpanel">
           <div className="addpaneldiv">
             <label htmlFor="mgmt_ip">MGMT IP</label> <br />
             <input className="addpanelinput" 
@@ -373,6 +378,7 @@ const DevicePage = () => {
           {selectedDevice && <button className="delBtnDevice" onClick={handleDelBtnDevice}>Delete</button>}
           {selectedDevice && <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>}
         </div>
+      }
         <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchdevice" id="inputsearchdevice" placeholder="Search Devices By Name or Vendor..." />
         <DataTable 
           columns={columns} 

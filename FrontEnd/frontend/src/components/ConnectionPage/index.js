@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import { jwtDecode } from "jwt-decode";
 import "./connectionpage.css"
 
 import DataTable from  "react-data-table-component";
 import NetworkMap from '../NetworkMap';
 
 const ConnectionPage = () => {
+
+  const token = localStorage.getItem("authToken");
+  const userData = token ? jwtDecode(token) : null;
+  const userRole = userData?.sub?.role;
 
   const columns = [
     {name:"Device A",
@@ -137,7 +142,6 @@ const ConnectionPage = () => {
         },
         body: JSON.stringify(newConnection),
         });
-        console.log(newConnection)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -251,7 +255,7 @@ const ConnectionPage = () => {
 
   return (
       <div className='connectionspage'>
-        <div className="addpanel">
+        {(userRole === "Admin" || userRole === "full-access")  && <div className="addpanel">
           <div className="addpaneldiv">
             <label htmlFor="device_a">Device A</label> <br />
             <select 
@@ -384,10 +388,13 @@ const ConnectionPage = () => {
                 onChange={handlerConnectionDescription} 
               />
           </div>
+        
           <br />
           {!selectedConnection && interfaceId_a && interfaceId_z && <button className="addBtnConnection" onClick={handleAddBtnDevice}>Add</button>}
           {selectedConnection && <button className="delBtnConnection" onClick={handleDelBtnDevice}>Delete</button>}
         </div>
+
+      }
         <input className="inputSearch"  onChange={handleSearch} type="search" name="inputsearchconnection" id="inputsearchconnection" placeholder="Search Connection By Description or Device..." />
         <DataTable 
           columns={columns} 

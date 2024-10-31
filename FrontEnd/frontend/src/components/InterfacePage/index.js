@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import "./interfacepage.css"
+import { jwtDecode } from "jwt-decode";
 
 import DataTable from  "react-data-table-component";
 
@@ -8,6 +9,10 @@ const getStatus = (status) => {
 };
 
 const InterfacePage = () => {
+
+  const token = localStorage.getItem("authToken");
+  const userData = token ? jwtDecode(token) : null;
+  const userRole = userData?.sub?.role;
 
   const [interfaces,setInterfaces] = useState([]);
   const [filteredInterfaces,setfilteredInterfaces] = useState([]);
@@ -158,7 +163,7 @@ const InterfacePage = () => {
 
   return (
       <div className='interfacepage'>
-        <div className="addpanel">
+        {(userRole === "Admin" || userRole === "full-access")  && <div className="addpanel">
           <div className="addpaneldiv">
             <label htmlFor="description">Description</label> <br />
             <input className="addpanelinput" 
@@ -186,6 +191,7 @@ const InterfacePage = () => {
           {selectedInterface && <button className="updBtnInterface" onClick={handleUpdBtnInterface}>Update</button>}
           {!selectedInterface && <button className="syncBtnInterface" onClick={handleSyncBtnInterface}>Sync Devices' Interface</button>}
         </div>
+      }
         <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Description or IP..." />
         <DataTable 
           columns={columns} 

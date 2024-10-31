@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./UserPage.css";
 import Users from "../Users";
+import { jwtDecode } from "jwt-decode";
 
 const UserPage = () => {
+
+  const token = localStorage.getItem("authToken");
+  const userData = token ? jwtDecode(token) : null;
+  const userRole = userData?.sub?.role;
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -173,7 +178,7 @@ const handlerUserstatus = (event) => {
 
   return (
     <div className="userpage">
-        <div className="addpanel">
+    {(userRole === "Admin" || userRole === "full-access")  && <div className="addpanel">
           <div className="addpaneldiv">
             <label htmlFor="username">Username</label> <br />
             <input className="addpanelinput" 
@@ -278,9 +283,7 @@ const handlerUserstatus = (event) => {
           {selectedUse && <button className="updBtnUser" onClick={handleUpdBtnUser}>Update</button>}
           {selectedUse && <button className="cancelBtnUser" onClick={handlecancelBtnUser}>Cancel Update/Delete</button>}
         </div>
-
-      
- 
+    }
       <Users users={users} onUserSelect={loadUserSelected} />
       
     </div>

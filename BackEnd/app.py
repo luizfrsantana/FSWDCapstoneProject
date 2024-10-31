@@ -46,7 +46,7 @@ def login():
     stored_password_hash = user["password"]
 
     if check_password_hash(stored_password_hash, password):
-        access_token = create_access_token(identity=username) 
+        access_token = create_access_token(identity={"username": user["username"], "role": user["role"]}) 
         return jsonify(token=access_token), 200
     else:
         return jsonify({"msg": "Incorrect password"}), 401

@@ -368,7 +368,7 @@ const DevicePage = () => {
             />  
             <br />
           </div>
-
+          <br />
           {!selectedDevice && <button className="addBtnDevice" onClick={handleAddBtnDevice}>Add</button>}
           {selectedDevice && <button className="delBtnDevice" onClick={handleDelBtnDevice}>Delete</button>}
           {selectedDevice && <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>}

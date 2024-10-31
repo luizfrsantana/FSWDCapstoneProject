@@ -1,0 +1,90 @@
+.userpage {
+    max-width: 100%;
+    height: fit-content;
+}
+
+.userpage .addpanel {
+    border: 1px solid;
+    height: 100px;
+    background-color:rgb(0, 0, 0);
+}
+
+.userpage .addpaneldiv{
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.userpage .addpanelinput {
+    border: 1px solid;
+    border-radius: 5px;
+    width: 140px;
+    height: 25px;
+}
+
+.userpage .addBtnUser {
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 5px;
+    width: 100px;
+    background-color: greenyellow;
+}
+
+.userpage label {
+    color: white;
+    font-weight: bold;
+}
+
+.userpage button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 5px;
+  }
+  
+.userpage .addBtnUser {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+.userpage .addBtnUser:hover {
+    background-color: #45a049; 
+  }
+  
+
+.userpage .delBtnUser {
+    background-color: #f44336; 
+    color: white;
+  }
+  
+.userpage .delBtnUser:hover {
+    background-color: #d32f2f; 
+  }
+  
+
+.userpage .updBtnUser {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+.userpage .updBtnUser:hover {
+    background-color: #1976D2; 
+  }
+  
+.userpage .cancelBtnUser {
+    background-color: #9E9E9E;
+    color: white;
+  }
+  
+.userpage .cancelBtnUser:hover {
+    background-color: #757575; 
+  }
+  
+.userpage button:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }

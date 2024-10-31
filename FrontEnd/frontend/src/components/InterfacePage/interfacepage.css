@@ -6,7 +6,7 @@
 .interfacepage .addpanel {
     border: 1px solid;
     height: 100px;
-    background-color:darkgray;
+    background-color:rgb(0, 0, 0);
 }
 
 .interfacepage .addpaneldiv{
@@ -19,26 +19,6 @@
     border-radius: 5px;
     width: 200px;
     height: 25px;
-}
-
-.interfacepage .syncBtnDevice {
-    border: 1px solid;
-    border-radius: 5px;
-    font-size: 15px;
-    line-height: 15px;
-    margin-left: 5px;
-    width: 200px;
-    background-color: rgb(rgb(214, 241, 91), green, blue);
-}
-
-.interfacepage .updBtnDevice {
-    border: 1px solid;
-    border-radius: 5px;
-    font-size: 15px;
-    line-height: 15px;
-    margin-left: 5px;
-    width: 60px;
-    background-color: rgb(rgb(214, 241, 91), green, blue);
 }
 
 .interfacepage .inputSearch {
@@ -72,3 +52,43 @@
     border-radius: 5px;
     text-align: center;
 }
+
+
+.interfacepage label {
+    color: white;
+    font-weight: bold;
+}
+
+.interfacepage button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 5px;
+  }
+  
+
+.interfacepage .updBtnInterface {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+.interfacepage .updBtnUser:hover {
+    background-color: #1976D2; 
+  }
+  
+.interfacepage .syncBtnInterface {
+    background-color: #9E9E9E;
+    color: white;
+  }
+  
+.interfacepage .syncBtnInterface:hover {
+    background-color: #757575; 
+  }
+  
+.interfacepage button:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }

@@ -93,7 +93,7 @@ const InterfacePage = () => {
     getAllInterfaces();
   },[])
 
-  const handleUpdBtnDevice = async () => {
+  const handleUpdBtnInterface = async () => {
     const newInterfaceValues = {
       ip,
       description,
@@ -116,7 +116,7 @@ const InterfacePage = () => {
         throw new Error('Network response was not ok');
       }
       
-      handleSyncBtnDevice();
+      handleSyncBtnInterface();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -130,7 +130,7 @@ const InterfacePage = () => {
     setIp(event.target.value)
   }
 
-  const handleSyncBtnDevice = async () => {
+  const handleSyncBtnInterface = async () => {
     try {
       const response = await fetch("http://192.168.56.107:5000/api/update_interfaces");
       if (!response.ok) {
@@ -182,9 +182,9 @@ const InterfacePage = () => {
                     disabled={!selectedInterface} 
             />
           </div>
-
-          {selectedInterface && <button className="updBtnDevice" onClick={handleUpdBtnDevice}>Update</button>}
-          {!selectedInterface && <button className="syncBtnDevice" onClick={handleSyncBtnDevice}>Sync Devices' Interface</button>}
+          <br />
+          {selectedInterface && <button className="updBtnInterface" onClick={handleUpdBtnInterface}>Update</button>}
+          {!selectedInterface && <button className="syncBtnInterface" onClick={handleSyncBtnInterface}>Sync Devices' Interface</button>}
         </div>
         <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Description or IP..." />
         <DataTable 

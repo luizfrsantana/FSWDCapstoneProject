@@ -384,7 +384,7 @@ const ConnectionPage = () => {
                 onChange={handlerConnectionDescription} 
               />
           </div>
-
+          <br />
           {!selectedConnection && interfaceId_a && interfaceId_z && <button className="addBtnConnection" onClick={handleAddBtnDevice}>Add</button>}
           {selectedConnection && <button className="delBtnConnection" onClick={handleDelBtnDevice}>Delete</button>}
         </div>

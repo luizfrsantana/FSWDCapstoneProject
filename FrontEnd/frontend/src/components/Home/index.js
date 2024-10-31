@@ -23,7 +23,7 @@ const Home = () => {
             </div>
     
             <div className="cta">
-                <a href="#">Start managing your network with ease today!</a>
+                <a href="https://example.com">Start managing your network with ease today!</a>
             </div>
         </div>
     );

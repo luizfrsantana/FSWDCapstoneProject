@@ -1,7 +1,11 @@
 from netmiko import ConnectHandler
 import re
+import yaml
 
-def get_cisco_informations(host, username='admin', password='admin123'):
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
+
+def get_cisco_informations(host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"]):
 
     version_pattern = re.compile(r'Cisco IOS Software, .*Version ([\S]+),')
     hostname_pattern = re.compile(r'hostname (\S+)')

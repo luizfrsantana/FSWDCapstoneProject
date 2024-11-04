@@ -1,7 +1,11 @@
 from netmiko import ConnectHandler
 import re
+import yaml
 
-def get_cisco_interfaces_status(host, username='admin', password='admin123'):
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
+
+def get_cisco_interfaces_status(host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"]):
 
     regexVlan = r"interface (\S+)\n(?:\s*description .*\n)?\s*encapsulation dot1Q (\d+)"
     regexStatus = r"(\S+) is (administratively )?(\S+), line protocol is (\S+)"

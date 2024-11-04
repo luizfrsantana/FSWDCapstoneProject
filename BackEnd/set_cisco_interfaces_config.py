@@ -1,5 +1,9 @@
 from netmiko import ConnectHandler
 import ipaddress
+import yaml
+
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
 
 def convert_from_cidr(cidr):
     network = ipaddress.IPv4Network(cidr, strict=False)
@@ -12,8 +16,8 @@ def configure_cisco(host, description, interface, ip):
         cisco_device = {
             'device_type': 'cisco_ios', 
             'host': host,       
-            'username': 'admin',        
-            'password': 'admin123', 
+            'username': config["DEVICE_USER"],        
+            'password': config["DEVICE_PASSWORD"], 
         }
 
         net_connect = ConnectHandler(**cisco_device)

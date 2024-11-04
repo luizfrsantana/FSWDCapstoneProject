@@ -13,21 +13,24 @@ from get_juniper_interfaces import get_juniper_interfaces
 from get_juniper_informations import get_juniper_informations
 from device_reachable import is_device_reachable
 from database_access import *
+import yaml
  
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
 
 app = Flask(__name__)
 CORS(app)
 
-app.config["JWT_SECRET_KEY"] = "123!@#$"
+app.config["JWT_SECRET_KEY"] = config["JWT_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 ###### Database access parameters ######
-app.config['MYSQL_HOST'] = '172.17.0.2'
-app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'admin123'
-app.config['MYSQL_DB'] = 'mydatabase'
+app.config['MYSQL_HOST'] = config["MYSQL_HOST"]
+app.config['MYSQL_PORT'] = config["MYSQL_PORT"]
+app.config['MYSQL_USER'] = config["MYSQL_USER"]
+app.config['MYSQL_PASSWORD'] = config["MYSQL_PASSWORD"]
+app.config['MYSQL_DB'] = config["MYSQL_DB"]
 
 mysql = MySQL(app)
 
@@ -279,7 +282,7 @@ def update_interfaces():
         mgmt_ip = device.get('mgmt_ip')
         vendor = device.get('vendor')
         
-        if vendor.lower() == 'cisco':
+        if vendor.lower() == 'cisco' and is_device_reachable(mgmt_ip):
             dict1 = get_cisco_interfaces(mgmt_ip)
             dict2 = get_cisco_interfaces_status(mgmt_ip)
 
@@ -313,11 +316,11 @@ def update_interfaces():
 
             is_juniper = False
 
-        elif vendor.lower() == 'juniper':
+        elif vendor.lower() == 'juniper' and is_device_reachable(mgmt_ip):
             interfaces_all_details = get_juniper_interfaces(mgmt_ip)
             is_juniper = True
 
-        save_interfaces_to_db(mysql, device_id, interfaces_all_details, is_juniper)
+        save_interfaces_to_db(mysql, device_id, interfaces_all_details)
 
     return jsonify(interfaces_all_details)
 

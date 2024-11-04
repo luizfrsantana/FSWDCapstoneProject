@@ -1,9 +1,13 @@
 from jnpr.junos import Device
 from jnpr.junos.utils.config import Config
+import yaml
+
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
 
 def configure_juniper(host, description, interface, ip):
     try:
-        dev = Device(host=host, user='admin', password='admin123')
+        dev = Device(host=host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"])
         dev.open()
 
         cu = Config(dev)

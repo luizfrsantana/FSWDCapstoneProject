@@ -177,7 +177,7 @@ def action_connection_to_db(mysql, action, connection):
     cur.close()
 
 
-def save_interfaces_to_db(mysql, device_id, interfaces, is_juniper=False):
+def save_interfaces_to_db(mysql, device_id, interfaces):
     cur = mysql.connection.cursor()
 
     cur.execute("SELECT interface_name, device_id  FROM interfaces")

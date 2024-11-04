@@ -1,12 +1,16 @@
 from netmiko import ConnectHandler
 import re
 import ipaddress
+import yaml
+
+with open("config.yaml") as f:
+    config = yaml.safe_load(f)
 
 def convert_to_cidr(ip, mask):
     ip_interface = ipaddress.IPv4Interface(f"{ip}/{mask}")
     return str(ip_interface.with_prefixlen)
 
-def get_cisco_interfaces(host, username='admin', password='admin123'):
+def get_cisco_interfaces(host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"]):
 
     pattern = re.compile(r'^interface (\S+)(?:\n\s*description (.+))?(?:[\s\S]*?ip address (\S+ \S+))?', re.MULTILINE)
     interfaces = []

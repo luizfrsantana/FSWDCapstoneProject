@@ -90,9 +90,21 @@ const InterfacePage = () => {
   }
 
   const handleSearch = (e) => {
-    const filteredInt = interfaces.filter(row=>row.ip.toLowerCase().includes(e.target.value.toLowerCase()) || row.description.toLowerCase().includes(e.target.value.toLowerCase()))
-    setfilteredInterfaces(filteredInt)
-  }
+    const searchValue = e.target.value.toLowerCase();
+
+    const filteredInt = interfaces.filter(row => {
+        return (
+            row.device_name && row.ip && row.description && 
+            (
+                row.device_name.toLowerCase().includes(searchValue) ||
+                row.ip.toLowerCase().includes(searchValue) ||
+                row.description.toLowerCase().includes(searchValue)
+            )
+        );
+    });
+
+    setfilteredInterfaces(filteredInt);
+};
 
   useEffect(()=>{
     getAllInterfaces();
@@ -192,7 +204,7 @@ const InterfacePage = () => {
           {!selectedInterface && <button className="syncBtnInterface" onClick={handleSyncBtnInterface}>Sync Devices' Interface</button>}
         </div>
       }
-        <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Description or IP..." />
+        <input className="inputSearch" onChange={handleSearch} type="search" name="inputsearchinterface" id="inputsearchinterface" placeholder="Search Interface By Device, Description or IP..." />
         <DataTable 
           columns={columns} 
           data={filteredInterfaces} 

@@ -176,14 +176,14 @@ Each row in the connection table displays:
   - Buttons to **Add** or **Remove** connections.
   
 
-# Some images of the project
+## Some images of the project
 
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/1.jpg" alt="Home" width="400">
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/2.jpg" alt="Uses" width="400">
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/3.jpg" alt="Devices" width="400">
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/4.jpg" alt="Interfaces" width="400">
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/5.jpg" alt="Connectios" width="400">
-- <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/6.jpg" alt="Connections 2" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/1.jpg" alt="Home" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/2.jpg" alt="Uses" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/3.jpg" alt="Devices" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/4.jpg" alt="Interfaces" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/5.jpg" alt="Connectios" width="400">
+<img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/6.jpg" alt="Connections 2" width="400">
 
 
 

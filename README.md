@@ -48,7 +48,7 @@ The **NetAdmin Portal** aims to simplify the management of network devices by of
 
 - **EVE-NG**: A network emulation tool that will be used to virtualize network devices.
   - [EVE-NG Official Website](https://www.eve-ng.net/)
-  - <img src="https://packet-warrior.net/p/how-to-add-custom-symbols-in-eve-ng/eve_symbol_2.png" alt="EVE-NG Image">
+  - <img src="https://github.com/luizfrsantana/FSWDCapstoneProject/blob/main/readme_images/lab.jpg" alt="EVE-NG Image">
 
 ## Additional Information
 

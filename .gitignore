@@ -9,6 +9,9 @@ BackEnd/*.pyc
 # Flask instance folder
 BackEnd/instance/
 
+#Flash config file
+BackEnd/config.yaml
+
 # Logs
 BackEnd/*.log
 

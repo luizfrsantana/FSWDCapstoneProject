@@ -15,17 +15,19 @@ from device_reachable import is_device_reachable
 from database_access import *
 import yaml
  
+# Load configuration file
 with open("config.yaml") as f:
     config = yaml.safe_load(f)
 
 app = Flask(__name__)
 CORS(app)
 
+# JWT configuration
 app.config["JWT_SECRET_KEY"] = config["JWT_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
-###### Database access parameters ######
+# Database configuration
 app.config['MYSQL_HOST'] = config["MYSQL_HOST"]
 app.config['MYSQL_PORT'] = config["MYSQL_PORT"]
 app.config['MYSQL_USER'] = config["MYSQL_USER"]
@@ -34,13 +36,15 @@ app.config['MYSQL_DB'] = config["MYSQL_DB"]
 
 mysql = MySQL(app)
 
-### JWT ROUTES ####
+### JWT ROUTES ###
 
 @app.route("/api/login", methods=["POST"])
 def login():
+    # Retrieve username and password from JSON payload
     username = request.json.get("username")
     password = request.json.get("password")
 
+    # Fetch user details from the database
     user = get_user_by_username(mysql,username)
 
     if not user:
@@ -48,6 +52,7 @@ def login():
         
     stored_password_hash = user["password"]
 
+    # Check if password is correct and generate JWT token if valid
     if check_password_hash(stored_password_hash, password):
         access_token = create_access_token(identity={"username": user["username"], "role": user["role"]}) 
         return jsonify(token=access_token), 200
@@ -58,15 +63,16 @@ def login():
 
 @app.route('/api/connections', methods=['GET','POST','DELETE'])
 def handle_connections():
-    if request.method == 'GET':
+    if request.method == 'GET': # Fetch all connections from the database
         result = get_connections_db(mysql)
         return jsonify(result)
-    elif request.method == 'POST':
+    
+    elif request.method == 'POST': # Add a new connection to the database
         connection = request.json
         action_connection_to_db(mysql,'POST', connection)
         return "Connection added!"
 
-    elif request.method == 'DELETE':
+    elif request.method == 'DELETE': # Delete a connection from the database
         connection = request.json
         action_connection_to_db(mysql,'DELETE', connection)
         return "Connection deleted!"
@@ -78,7 +84,7 @@ def handle_connections():
 def handle_user():
     user_id = request.args.get('user_id')
     
-    if request.method == 'POST':
+    if request.method == 'POST': # Retrieve user details from JSON payload for adding a new user
         username = request.json.get('username')
         password = request.json.get('password')
         fullName = request.json.get('fullname')
@@ -88,9 +94,11 @@ def handle_user():
         phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
+        # Validate required fields
         if not all([username, password, role, email]):
             return "Missing required fields!", 400
 
+        # Hash password before saving
         hashed_password = generate_password_hash(password)
         try:
             add_user_to_database(mysql, username, hashed_password, role, email, phoneNumber, status, fullName, profile_picture)
@@ -98,21 +106,21 @@ def handle_user():
         except Exception as e:
             return f"Error adding user: {str(e)}", 500
 
-    elif request.method == 'GET' and not user_id:
+    elif request.method == 'GET' and not user_id: # Retrieve all users if no specific user ID is provided
         try:
             users = get_users(mysql)
             return jsonify(users), 200
         except Exception as e:
             return f"Error fetching users: {str(e)}", 500
         
-    elif request.method == 'GET' and user_id:
+    elif request.method == 'GET' and user_id: # Retrieve specific user details by user ID
         if not user_exists(mysql, user_id):
             return f"User with ID {user_id} does not exist!", 404
 
         user = get_user_by_id(mysql, user_id)
 
         return jsonify(user)
-    elif request.method == 'DELETE':
+    elif request.method == 'DELETE': # Delete user by ID
         if not user_id:
             return "User ID is required!", 400
         
@@ -123,10 +131,11 @@ def handle_user():
 
         return f"User with ID {user_id} deleted!", 200
     
-    elif request.method == 'PUT' and user_id:
+    elif request.method == 'PUT' and user_id: # Update user details by ID
         if not user_exists(mysql, user_id):
             return f"User with ID {user_id} does not exist!", 404
         
+        # Retrieve user details for update
         username = request.json.get('username')
         password = request.json.get('password')
         fullName = request.json.get('fullname')
@@ -136,8 +145,10 @@ def handle_user():
         phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
+        # Hash password before saving
         hashed_password = generate_password_hash(password)
 
+        # Validate required fields
         if not all([username, role, email]):
             return "Missing required fields!", 400
 
@@ -146,35 +157,6 @@ def handle_user():
             return "User added!", 201 
         except Exception as e:
             return f"Error adding user: {str(e)}", 500
-        
-@app.route('/update_user_field', methods=['PATCH'])
-def update_user_field():
-    user_id = request.args.get('user_id')
-
-    if not user_id:
-        return "User ID is required!", 400
-
-    if not user_exists(mysql, user_id):
-        return f"User with ID {user_id} does not exist!", 404
-
-    data = request.get_json()
-    if not data or 'field' not in data or 'new_value' not in data:
-        return "Field and new value are required!", 400
-
-    field = data.get('field')
-    new_value = data.get('new_value')
-
-    if field == "password":
-        new_value = generate_password_hash(new_value)
-
-    try:
-        update_user_field_by_id(mysql, field, new_value, user_id)
-    except Exception as e:
-        return f"Error updating user: {str(e)}", 500
-
-    return f"User {field} updated successfully!", 200
-
-
 
 ##### DEVICES ROUTES #####
 
@@ -183,11 +165,11 @@ def handle_device():
     mgmt_ip = request.args.get('mgmt_ip')
     id = request.args.get('id')
 
-    if request.method == "GET":
+    if request.method == "GET": # Retrieve all devices
         result = get_devices(mysql)
         return jsonify(result)
     
-    elif request.method == 'POST':
+    elif request.method == 'POST': # Add new device
         data = request.json
         mgmt_ip = data.get('mgmt_ip')
         vendor = data.get('vendor')
@@ -199,6 +181,7 @@ def handle_device():
         support_contact = data.get('support_contact')
         notes = data.get('notes')
 
+        # Check device status and add it to the database
         status = "DOWN" if not is_device_reachable(mgmt_ip) else "UP"
 
         try:
@@ -226,7 +209,7 @@ def handle_device():
         result = get_device_by_ip_database(mysql, mgmt_ip)
         return jsonify(result)
     
-    elif request.method == "DELETE" and id:
+    elif request.method == "DELETE" and id: # Delete device by ID
         try:
             delete_device_to_database(mysql, id)
         except Exception as e:

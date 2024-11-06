@@ -1,5 +1,4 @@
 from jnpr.junos import Device
-from lxml import etree
 from utils.config_loader import load_config
 
 config = load_config()

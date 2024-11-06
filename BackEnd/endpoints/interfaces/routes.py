@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint
 from database.database_access import *
 
 from cisco.set_cisco_interfaces_config import configure_cisco

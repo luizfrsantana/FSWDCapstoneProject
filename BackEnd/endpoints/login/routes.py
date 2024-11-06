@@ -3,10 +3,10 @@ from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
 from database.database_access import *
 
-auth = Blueprint('auth', __name__)
+login = Blueprint('login', __name__)
 
-@auth.route("/login", methods=["POST"])
-def login():
+@login.route('/login', methods=["POST"])
+def login_auth():
     # Retrieve username and password from JSON payload
     username = request.json.get("username")
     password = request.json.get("password")

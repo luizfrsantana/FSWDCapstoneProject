@@ -77,7 +77,7 @@ def handle_user():
             return "Missing required fields!", 400
 
         try:
-            update_user_field_by_id(mysql, username,hashed_password, role, email, phoneNumber, status, fullName, profile_picture, user_id)
+            update_user_field_by_id(get_db(), username,hashed_password, role, email, phoneNumber, status, fullName, profile_picture, user_id)
             return "User added!", 201 
         except Exception as e:
             return f"Error adding user: {str(e)}", 500

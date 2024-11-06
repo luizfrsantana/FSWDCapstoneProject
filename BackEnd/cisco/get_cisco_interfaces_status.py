@@ -1,9 +1,9 @@
 from netmiko import ConnectHandler
+from utils.config_loader import load_config
 import re
 import yaml
 
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
+config = load_config()
 
 def get_cisco_interfaces_status(host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"]):
 

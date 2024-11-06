@@ -1,9 +1,9 @@
 from netmiko import ConnectHandler
+from utils.config_loader import load_config
 import ipaddress
 import yaml
 
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
+config = load_config()
 
 def convert_from_cidr(cidr):
     network = ipaddress.IPv4Network(cidr, strict=False)

@@ -1,9 +1,8 @@
 from jnpr.junos import Device
 from jnpr.junos.utils.config import Config
-import yaml
+from utils.config_loader import load_config
 
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
+config = load_config()
 
 def configure_juniper(host, description, interface, ip):
     try:

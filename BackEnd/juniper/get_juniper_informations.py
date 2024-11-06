@@ -1,11 +1,12 @@
 from jnpr.junos import Device
 from lxml import etree
-import yaml
+from utils.config_loader import load_config
 
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
+config = load_config()
 
-def get_juniper_informations(host, username=config["DEVICE_USER"], password=config["DEVICE_PASSWORD"]):
+def get_juniper_informations(host):
+    username=config["DEVICE_USER"]
+    password=config["DEVICE_PASSWORD"]
 
     try:
         dev = Device(host=host, user=username, passwd=password)

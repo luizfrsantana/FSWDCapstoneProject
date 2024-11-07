@@ -1,7 +1,6 @@
 from jnpr.junos import Device
 from utils.config_loader import load_config
 
-
 config = load_config()
 
 def get_juniper_interfaces(host):

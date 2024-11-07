@@ -1,7 +1,6 @@
 from netmiko import ConnectHandler
 from utils.config_loader import load_config
 import ipaddress
-import yaml
 
 config = load_config()
 

@@ -1,49 +1,71 @@
 .login-page {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9;
-    text-align: center;
-  }
-  
-  .login-page h2 {
-    margin-bottom: 20px;
-  }
-  
-  .login-page form div {
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .login-page label {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .login-page input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 5px;
-    box-sizing: border-box;
-  }
-  
-  .login-page button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .login-page button:hover {
-    background-color: #45a049;
-  }
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #636363, #81C784);
+  color: #fff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.login-page h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.login-page .error-message {
+  color: #ffdddd;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.login-page form div {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.login-page label {
+  font-weight: bold;
+  color: #e3f2fd;
+}
+
+.login-page input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #f1f1f1;
+  transition: box-shadow 0.3s;
+}
+
+.login-page input:focus {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  outline: none;
+}
+
+.login-page button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffffff;
+  color: #4CAF50;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-page button:hover {
+  background-color: #f1f1f1;
+  color: #388E3C;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

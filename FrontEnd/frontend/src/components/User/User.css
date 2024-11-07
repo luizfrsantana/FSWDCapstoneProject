@@ -1,28 +1,45 @@
 .user {
     width: 280px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    border-radius: 10px;
+    overflow: visible; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin-top: 60px; 
 }
 
 .user .header {
-    background-color:  #F0F0F0;
-    border-radius: 10px 10px 0px 0px;
+    background-color: #f8f9fa; 
+    padding: 60px 20px 20px; 
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    position: relative;
 }
+
 .user img {
     width: 100px;
+    height: 100px;
     border-radius: 50%;
-    position: relative;
-    bottom: -50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: -50px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 
 .user .footer {
-    background: #FFFFFF;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.08);
-    border-radius: 0px 0px 10px 10px;
-    padding-top: 90px;
+    background: #ffffff;
+    padding-top: 60px;
     padding-bottom: 40px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 0 0 10px 10px;
 }
 
 .user .footer h4 {
-    color: #6278F7;
+    color: #6278f7;
     font-size: 18px;
     line-height: 22px;
     font-weight: bold;
@@ -30,8 +47,15 @@
 }
 
 .user .footer h5 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 22px;
     color: #212121;
     padding: 0 16px;
+    margin-top: 5px;
+}
+
+.user .footer p {
+    margin: 0;
+    color: #212121;
+    font-size: 14px;
 }

@@ -1,75 +1,91 @@
 .connectionspage {
-    max-width: 100%;
-    height: fit-content;
+  max-width: 100%;
+  height: fit-content;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
 .connectionspage .addpanel {
-    border: 1px solid;
-    height: 150px;
-    background-color:rgb(0, 0, 0);
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #f9f9f9;
+  position: relative;
 }
 
-.connectionspage .addpaneldiv{
-    margin-left: 5px;
-    display: inline-block;
+.connectionspage .addpaneldiv {
+  margin-left: 10px;
+  display: inline-block;
 }
 
 .connectionspage .addpanelinput {
-    border: 1px solid;
-    border-radius: 5px;
-    width: 200px;
-    height: 25px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  margin-right: 8px;
 }
 
 .connectionspage .inputSearch {
-    margin-top: 5px;
-    width: 350px;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: aliceblue;
+  margin-top: 10px;
+  width: 350px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: #f0f4f8;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .connectionspage .data-table-cell {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 150px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+  padding: 8px;
 }
 
 .connectionspage label {
-    color: white;
-    font-weight: bold;
+  color: #f9f9f9;
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 .connectionspage button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin: 5px;
-  }
-  
-.connectionspage .addBtnConnection  {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.connectionspage .addBtnConnection {
+  background-color: #4CAF50;
+  color: white;
+}
+
 .connectionspage .addBtnConnection:hover {
-    background-color: #45a049; 
-  }
+  background-color: #45a049;
+}
 
 .connectionspage .delBtnConnection {
-    background-color: #f44336; 
-    color: white;
-  }
-  
+  background-color: #f44336;
+  color: white;
+}
+
 .connectionspage .delBtnConnection:hover {
-    background-color: #d32f2f; 
-  }
-  
+  background-color: #d32f2f;
+}
+
 .connectionspage button:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  }
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}

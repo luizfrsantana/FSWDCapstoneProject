@@ -61,7 +61,6 @@ def handle_user():
         
         # Retrieve user details for update
         username = request.json.get('username')
-        password = request.json.get('password')
         fullName = request.json.get('fullname')
         profile_picture = request.json.get('profile_picture')
         role = request.json.get('role')
@@ -69,15 +68,31 @@ def handle_user():
         phoneNumber = request.json.get('phonenumber')
         status = request.json.get('status')
 
-        # Hash password before saving
-        hashed_password = generate_password_hash(password)
-
         # Validate required fields
         if not all([username, role, email]):
             return "Missing required fields!", 400
 
         try:
-            update_user_field_by_id(get_db(), username,hashed_password, role, email, phoneNumber, status, fullName, profile_picture, user_id)
-            return "User added!", 201 
+            update_user_field_by_id(get_db(), username, role, email, phoneNumber, status, fullName, profile_picture, user_id)
+            return "User values updated!!", 201 
         except Exception as e:
-            return f"Error adding user: {str(e)}", 500
+            return f"Error updating user values: {str(e)}", 500
+        
+@user.route('/user/password', methods=['PUT'])
+def handle_user_password():
+    user_id = request.args.get('user_id')
+    if request.method == 'PUT' and user_id: # Update passowrd by ID
+        if not user_exists(get_db(), user_id):
+            return f"User with ID {user_id} does not exist!", 404
+        
+        # Retrieve user details for update
+        password = request.json.get('password')
+
+        # Hash password before saving
+        hashed_password = generate_password_hash(password)
+
+        try:
+            update_user_password_by_id(get_db(), hashed_password,user_id)
+            return "User password updated!", 200 
+        except Exception as e:
+            return f"Error updating user password: {str(e)}", 500

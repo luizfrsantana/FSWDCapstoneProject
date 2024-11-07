@@ -50,14 +50,20 @@ def get_users(mysql):
 
     return result
 
-def update_user_field_by_id(mysql, username,password, role, email, phoneNumber, status, fullName, profile_picture, user_id):
+def update_user_field_by_id(mysql, username, role, email, phoneNumber, status, fullName, profile_picture, user_id):
     cur = mysql.connection.cursor()
     cur.execute("""
     UPDATE users 
-    SET username = %s, password = %s, full_name = %s, email = %s, phone_number = %s, status = %s, role = %s, profile_picture = %s
+    SET username = %s, full_name = %s, email = %s, phone_number = %s, status = %s, role = %s, profile_picture = %s
     WHERE id = %s
-    """, (username, password, fullName, email, phoneNumber, status, role, profile_picture, user_id, ))
+    """, (username, fullName, email, phoneNumber, status, role, profile_picture, user_id, ))
 
+    mysql.connection.commit()
+    cur.close()
+
+def update_user_password_by_id(mysql, password,user_id):
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE users SET password = %s WHERE id = %s", (password,user_id))
     mysql.connection.commit()
     cur.close()
 

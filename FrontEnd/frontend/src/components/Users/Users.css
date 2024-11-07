@@ -1,12 +1,12 @@
 .users {
     text-align: center;
     padding: 32px;
-    background-color: #d9f7e9;
+    background-color: #d1d1d1;
 }
 
 .users h3 {
     font-size: 32px;
-    border-bottom: 4px solid #57c278;
+    border-bottom: 4px solid #686868;
     display: inline-block;
     padding-bottom: 8px;
 }

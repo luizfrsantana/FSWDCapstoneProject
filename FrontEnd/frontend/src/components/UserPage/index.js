@@ -102,7 +102,6 @@ const handleUpdBtnUser = async () => {
   if (!selectedUse) return;
   const newUseValues = {
     username,
-    password,
     fullname,
     email,
     phonenumber,
@@ -113,6 +112,32 @@ const handleUpdBtnUser = async () => {
 
   try {
     const response = await fetch(`http://192.168.56.107:5000/api/user?user_id=${selectedUse.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUseValues),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    loadUsers();
+    handlecancelBtnUser();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+};
+
+const handleUpdPasswordBtnUser = async () => {
+  if (!selectedUse) return;
+  const newUseValues = {
+    password,
+  };
+
+  try {
+    const response = await fetch(`http://192.168.56.107:5000/api/user/password?user_id=${selectedUse.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -281,6 +306,7 @@ const handlerUserstatus = (event) => {
           {!selectedUse && <button className="addBtnUser" onClick={handleAddBtnUser}>Add</button>}
           {selectedUse && <button className="delBtnUser" onClick={handleDelBtnUser}>Delete</button>}
           {selectedUse && <button className="updBtnUser" onClick={handleUpdBtnUser}>Update</button>}
+          {selectedUse && <button className="updBtnUser" onClick={handleUpdPasswordBtnUser}>Update Password</button>}
           {selectedUse && <button className="cancelBtnUser" onClick={handlecancelBtnUser}>Cancel Update/Delete</button>}
         </div>
     }
